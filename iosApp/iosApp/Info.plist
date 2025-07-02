@@ -4,5 +4,7 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>TMDB_ACCESS_TOKEN</key>
+	<string>$(TMDB_ACCESS_TOKEN)</string>
 </dict>
 </plist>
