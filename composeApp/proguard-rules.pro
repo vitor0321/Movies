@@ -3,6 +3,7 @@
 # Ktor
 -keep class io.ktor.** { *; }
 -keep class kotlinx.coroutines.** { *; }
+-keepclassmembers class io.ktor.** { *; }
 -dontwarn kotlinx.atomicfu.**
 -dontwarn io.netty.**
 -dontwarn com.typesafe.**

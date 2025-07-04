@@ -1,8 +1,8 @@
 package com.walcker.movies
 
-interface Platform {
+public interface Platform {
     val name: String
     val accessToken: String
 }
 
-expect fun getPlatform(): Platform
+public expect fun getPlatform(): Platform

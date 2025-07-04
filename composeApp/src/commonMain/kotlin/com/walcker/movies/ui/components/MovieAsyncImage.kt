@@ -20,7 +20,7 @@ import movies.composeapp.generated.resources.error_image
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun MovieAsyncImage(
+internal fun MovieAsyncImage(
     modifier: Modifier = Modifier,
     movie: Movie,
 ) {

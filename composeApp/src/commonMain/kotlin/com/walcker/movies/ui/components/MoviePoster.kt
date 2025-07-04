@@ -17,13 +17,12 @@ import com.walcker.movies.ui.preview.mockData.movieTestData
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun MoviePoster(
+internal fun MoviePoster(
     modifier: Modifier = Modifier,
     movie: Movie,
 ) {
     Column(
-        modifier = modifier
-            .width(140.dp),
+        modifier = modifier.width(140.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Card(

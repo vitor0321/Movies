@@ -18,7 +18,7 @@ import kotlinx.collections.immutable.toImmutableList
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-public fun MovieSection(
+internal fun MovieSection(
     modifier: Modifier = Modifier,
     title: String,
     movies: ImmutableList<Movie>

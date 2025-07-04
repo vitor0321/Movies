@@ -2,7 +2,7 @@ package com.walcker.movies.navigation
 
 import kotlinx.serialization.Serializable
 
-sealed interface AppRoutes {
+internal sealed interface AppRoutes {
     @Serializable
     data object MoviesList : AppRoutes
 

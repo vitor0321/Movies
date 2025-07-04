@@ -11,7 +11,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
-fun App() {
+public fun App() {
     val platform = getPlatform()
 
     MaterialTheme {

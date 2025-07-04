@@ -44,10 +44,11 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(libs.coil.compose)
-            implementation(libs.coil.network.okhttp)
+            implementation(libs.coil.network.ktor3)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.collections.immutable)
 
             implementation(libs.androidx.navigation)
@@ -91,7 +92,7 @@ android {
         buildConfigField(
             "String",
             "TMDB_ACCESS_TOKEN",
-            "\"${localProperties.getProperty("tmdb.access.token", "")}\""
+            "\"${localProperties.getProperty("TMDB_ACCESS_TOKEN", "")}\""
         )
     }
     packaging {
