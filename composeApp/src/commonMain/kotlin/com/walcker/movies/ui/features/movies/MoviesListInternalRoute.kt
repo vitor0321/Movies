@@ -1,4 +1,4 @@
-package com.walcker.movies.ui.movies
+package com.walcker.movies.ui.features.movies
 
 import com.walcker.movies.domain.models.MovieSection
 

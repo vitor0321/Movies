@@ -51,6 +51,11 @@ kotlin {
             implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.collections.immutable)
 
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.compose.viewmodel.navigation)
+
             implementation(libs.androidx.navigation)
 
             implementation(libs.kotlinx.coroutines.core)
@@ -59,6 +64,7 @@ kotlin {
             implementation(libs.ktor.serialization.json)
             implementation(libs.ktor.content.negotiation)
             implementation(libs.ktor.client.auth)
+            implementation(libs.ktor.client.cio)
             implementation(libs.ktor.client.logging)
         }
         commonTest.dependencies {

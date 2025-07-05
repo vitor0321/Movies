@@ -1,7 +1,7 @@
 package com.walcker.movies.ui.preview.movies
 
 import com.walcker.movies.domain.models.MovieSection
-import com.walcker.movies.ui.movies.MoviesListViewModel
+import com.walcker.movies.ui.features.movies.MoviesListViewModel
 import com.walcker.movies.ui.preview.mockData.movieTestData
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList

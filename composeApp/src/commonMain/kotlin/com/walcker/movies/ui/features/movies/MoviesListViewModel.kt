@@ -1,9 +1,10 @@
-package com.walcker.movies.ui.movies
+package com.walcker.movies.ui.features.movies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.walcker.movies.domain.models.MovieSection
 import com.walcker.movies.domain.repository.MoviesRepository
+import com.walcker.movies.ui.handle.handleMessageError
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,17 +19,13 @@ internal class MoviesListViewModel internal constructor(
     private val _moviesListUiState = MutableStateFlow<MoviesListUiState>(MoviesListUiState.Loading)
     internal val moviesListUiState = _moviesListUiState.asStateFlow()
 
-    private val _moviesListData = MutableStateFlow<MoviesListState>(MoviesListState())
-    internal val moviesListData = _moviesListData.asStateFlow()
-
     init {
         getMovieSections()
     }
 
     internal fun onEvent(event: MoviesListInternalRoute) {
         when (event) {
-            is MoviesListInternalRoute.OnTitleChecked ->
-                updateTitle(section = event.sectionType)
+            is MoviesListInternalRoute.OnTitleChecked -> {}
         }
     }
 
@@ -42,15 +39,9 @@ internal class MoviesListViewModel internal constructor(
                 }
             }.onFailure { error ->
                 _moviesListUiState.update {
-                    MoviesListUiState.Error(message = error.message ?: "Unknown error")
+                    MoviesListUiState.Error(message = handleMessageError(exception = error))
                 }
             }
-        }
-    }
-
-    private fun updateTitle(section: MovieSection.SectionType) {
-        _moviesListData.update {
-            MoviesListState(title = section.title)
         }
     }
 
