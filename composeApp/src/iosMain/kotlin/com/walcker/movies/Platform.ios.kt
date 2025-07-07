@@ -1,10 +1,15 @@
 package com.walcker.movies
 
+import com.walcker.movies.strings.Locales
 import platform.Foundation.NSBundle
-import platform.UIKit.UIDevice
+import platform.Foundation.NSLocale
+import platform.Foundation.preferredLanguages
 
-class IOSPlatform: Platform {
-    override val name: String = UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
+actual fun getPlatform(): Platform = IOSPlatform()
+
+class IOSPlatform() : Platform {
+
+    override val languageSystem: String = getSystemLanguage()
 
     // https://www.themoviedb.org/settings/api
     override val accessToken: String by lazy {
@@ -13,4 +18,15 @@ class IOSPlatform: Platform {
     }
 }
 
-actual fun getPlatform(): Platform = IOSPlatform()
+private fun getSystemLanguage(): String {
+    val languages = NSLocale.preferredLanguages()
+    val primaryLanguage = languages.firstOrNull() ?: Locales.EN
+
+    // Para debug
+    println("iOS detected language: $primaryLanguage")
+
+    return when (primaryLanguage) {
+        "pt-BR" -> Locales.PT
+        else -> Locales.EN
+    }
+}

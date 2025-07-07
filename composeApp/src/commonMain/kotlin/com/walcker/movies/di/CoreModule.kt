@@ -1,8 +1,8 @@
 package com.walcker.movies.di
 
-import com.walcker.movies.data.di.networkModule
-import com.walcker.movies.data.di.repositoryModule
-import com.walcker.movies.ui.di.viewModelModule
+import com.walcker.movies.features.data.di.networkModule
+import com.walcker.movies.features.data.di.repositoryModule
+import com.walcker.movies.features.ui.di.viewModelModule
 import org.koin.core.module.Module
 
 internal val coreModule = listOf<Module>(

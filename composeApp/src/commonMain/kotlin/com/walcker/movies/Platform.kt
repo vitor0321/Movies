@@ -1,7 +1,7 @@
 package com.walcker.movies
 
 public interface Platform {
-    val name: String
+    val languageSystem: String
     val accessToken: String
 }
 
