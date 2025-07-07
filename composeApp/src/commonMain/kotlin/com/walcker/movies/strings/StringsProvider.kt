@@ -1,0 +1,16 @@
+package com.walcker.movies.strings
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import cafe.adriel.lyricist.Lyricist
+
+@Composable
+internal fun ProvideStrings(
+    lyricist: Lyricist<AppStrings> = rememberStrings(),
+    content: @Composable () -> Unit
+) {
+
+    CompositionLocalProvider(LocalStrings provides lyricist.strings) {
+        content()
+    }
+}
