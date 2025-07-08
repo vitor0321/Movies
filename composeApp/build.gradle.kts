@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
@@ -7,6 +8,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinKsp)
     kotlin("plugin.serialization") version "2.2.0"
 }
 
@@ -51,6 +53,8 @@ kotlin {
             implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.collections.immutable)
 
+            implementation(libs.lyricist)
+
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
@@ -64,7 +68,6 @@ kotlin {
             implementation(libs.ktor.serialization.json)
             implementation(libs.ktor.content.negotiation)
             implementation(libs.ktor.client.auth)
-            implementation(libs.ktor.client.cio)
             implementation(libs.ktor.client.logging)
         }
         commonTest.dependencies {
