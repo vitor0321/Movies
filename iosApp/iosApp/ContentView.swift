@@ -2,18 +2,26 @@ import UIKit
 import SwiftUI
 import ComposeApp
 
-struct ComposeView: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController()
-    }
+struct ContentView: View {
+    @Environment(\.colorScheme) var colorScheme
 
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+    var body: some View {
+        ComposeView(isDarkTheme: colorScheme == .dark)
+            .ignoresSafeArea(.keyboard)
+    }
 }
 
-struct ContentView: View {
-    var body: some View {
-        ComposeView()
-                .ignoresSafeArea(.keyboard) // Compose has own keyboard handler
+struct ComposeView: UIViewControllerRepresentable {
+    var isDarkTheme: Bool
+
+    func makeUIViewController(context: Context) -> UIViewController {
+        MainViewControllerKt.MainViewController(isDarkTheme: isDarkTheme)
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        if let mainViewController = uiViewController as? UIViewController {
+            MainViewControllerKt.updateTheme(controller: mainViewController, isDarkTheme: isDarkTheme)
+        }
     }
 }
 
