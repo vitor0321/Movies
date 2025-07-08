@@ -1,5 +1,6 @@
 package com.walcker.movies.features.domain.models
 
+import com.walcker.movies.strings.features.MoviesListStrings
 import kotlinx.collections.immutable.ImmutableList
 
 internal data class MovieSection(
@@ -7,20 +8,20 @@ internal data class MovieSection(
     val movies: ImmutableList<Movie>,
 ) {
     enum class SectionType(
-        val title: String,
+        val title: (MoviesListStrings) -> String,
         val category: String,
     ) {
         POPULAR(
-            title = "Popular",
+            title = { strings -> strings.popularMovies },
             category = "popular",
         ),
         TOP_RATED(
-            title = "Top Rated",
+            title = { strings -> strings.topRatedMovies },
             category = "top_rated",
         ),
         UPCOMING(
-            title = "Upcoming",
+            title = { strings -> strings.upcomingMovies },
             category = "upcoming",
-        )
+        );
     }
 }

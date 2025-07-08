@@ -5,11 +5,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import cafe.adriel.lyricist.Lyricist
 
-internal val LocalStrings = staticCompositionLocalOf<AppStrings> { error("LocalStrings not provided") }
+internal val LocalStrings = staticCompositionLocalOf<MoviesStrings> { error("LocalStrings not provided") }
 
 private fun createLyricist(
     defaultLanguageTag: String = Locales.EN,
-): Lyricist<AppStrings> {
+): Lyricist<MoviesStrings> {
     return Lyricist(
         defaultLanguageTag = defaultLanguageTag,
         translations = mapOf(
@@ -23,7 +23,7 @@ private fun createLyricist(
 internal fun rememberStrings(
     defaultLanguageTag: String = Locales.EN,
     currentLanguageTag: String = defaultLanguageTag
-): Lyricist<AppStrings> {
+): Lyricist<MoviesStrings> {
     return remember(currentLanguageTag) {
         createLyricist(
             defaultLanguageTag = defaultLanguageTag

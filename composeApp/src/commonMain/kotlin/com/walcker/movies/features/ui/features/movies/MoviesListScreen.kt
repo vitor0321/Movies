@@ -23,9 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.walcker.movies.features.domain.models.MovieSection
-import com.walcker.movies.strings.LocalStrings
 import com.walcker.movies.features.ui.components.MovieSection
 import com.walcker.movies.features.ui.preview.movies.MoviesListUiStateProvider
+import com.walcker.movies.strings.LocalStrings
+import com.walcker.movies.strings.features.MoviesListStrings
 import kotlinx.collections.immutable.ImmutableList
 import movies.composeapp.generated.resources.Res
 import movies.composeapp.generated.resources.error_image
@@ -57,15 +58,15 @@ private fun MoviesListScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            Text(
-                text = strings.appName,
-            )
             when (moviesListUiState) {
                 is MoviesListViewModel.MoviesListUiState.Loading ->
                     MoviesListLoadingContent()
 
                 is MoviesListViewModel.MoviesListUiState.Success ->
-                    MoviesListSuccessContent(movies = moviesListUiState.movies)
+                    MoviesListSuccessContent(
+                        strings = strings.moviesListStrings,
+                        movies = moviesListUiState.movies
+                    )
 
                 is MoviesListViewModel.MoviesListUiState.Error ->
                     MoviesListErrorContent(message = moviesListUiState.message)
@@ -76,6 +77,7 @@ private fun MoviesListScreen(
 
 @Composable
 private fun MoviesListSuccessContent(
+    strings: MoviesListStrings,
     movies: ImmutableList<MovieSection>,
 ) {
     LazyColumn(
@@ -84,7 +86,7 @@ private fun MoviesListSuccessContent(
     ) {
         items(items = movies) { movieSection ->
             MovieSection(
-                title = movieSection.sectionType.title,
+                title = movieSection.sectionType.title(strings),
                 movies = movieSection.movies
             )
         }

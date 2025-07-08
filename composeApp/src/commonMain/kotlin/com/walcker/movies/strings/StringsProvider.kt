@@ -6,7 +6,7 @@ import cafe.adriel.lyricist.Lyricist
 
 @Composable
 internal fun ProvideStrings(
-    lyricist: Lyricist<AppStrings> = rememberStrings(),
+    lyricist: Lyricist<MoviesStrings> = rememberStrings(),
     content: @Composable () -> Unit
 ) {
 
