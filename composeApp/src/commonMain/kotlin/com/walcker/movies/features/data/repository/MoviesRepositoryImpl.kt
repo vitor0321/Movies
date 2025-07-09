@@ -30,13 +30,12 @@ internal class MoviesRepositoryImpl(
         moviesDeferred.awaitAll()
     }
 
-    private suspend fun fetchMoviesByCategory(sectionType: MovieSection.SectionType): MovieSection {
-        return withRetry(dispatcher = dispatcher) {
+    private suspend fun fetchMoviesByCategory(sectionType: MovieSection.SectionType): MovieSection =
+        withRetry(dispatcher = dispatcher) {
             val movieResponse = movieApi.getMovies(sectionType = sectionType)
             MovieSection(
                 sectionType = sectionType,
                 movies = movieResponse.results.map { it.toDomain() }.toImmutableList()
             )
         }
-    }
 }

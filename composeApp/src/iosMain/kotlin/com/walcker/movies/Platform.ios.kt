@@ -13,8 +13,7 @@ class IOSPlatform : Platform {
 
     // https://www.themoviedb.org/settings/api
     override val accessToken: String by lazy {
-        NSBundle.mainBundle.objectForInfoDictionaryKey("TMDB_ACCESS_TOKEN") as? String
-            ?: throw IllegalStateException("TMDB_ACCESS_TOKEN not found in Info.plist. Please configure Secrets.xcconfig properly.")
+        NSBundle.mainBundle.objectForInfoDictionaryKey("TMDB_ACCESS_TOKEN") as? String ?: ""
     }
 }
 

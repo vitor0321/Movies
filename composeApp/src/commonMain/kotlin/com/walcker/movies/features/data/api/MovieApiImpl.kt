@@ -12,9 +12,8 @@ internal class MovieApiImpl(
     private val networkClient: NetworkClient,
 ) : MovieApi {
 
-    override suspend fun getMovies(sectionType: MovieSection.SectionType, language: String): MovieListResponse {
-        return networkClient.httpClient().get("/3/movie/${sectionType.category}") {
+    override suspend fun getMovies(sectionType: MovieSection.SectionType, language: String): MovieListResponse =
+        networkClient.httpClient().get("/3/movie/${sectionType.category}") {
             mapOf(HttpConfig.LANGUAGE.value to language)
         }.body()
-    }
 }

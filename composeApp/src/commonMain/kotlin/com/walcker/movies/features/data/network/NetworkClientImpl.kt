@@ -37,8 +37,8 @@ internal class NetworkClientImpl : NetworkClient {
             ""
         }
 
-    override suspend fun httpClient(): HttpClient {
-        return HttpClient {
+    override suspend fun httpClient(): HttpClient =
+        HttpClient {
             expectSuccess = true
 
             // Configuração padrão para todas as solicitações
@@ -61,10 +61,7 @@ internal class NetworkClientImpl : NetworkClient {
             configureAuth()
             configureLogging()
             configureTimeouts()
-        }.apply {
-            
         }
-    }
 
     private fun HttpClientConfig<*>.configureContentNegotiation() {
         install(plugin = ContentNegotiation) {
@@ -131,8 +128,8 @@ private suspend fun handleClientRequestException(cause: Throwable, request: Http
     throw mapToCustomException(response.status, cause)
 }
 
-private fun mapToCustomException(statusCode: HttpStatusCode, cause: Throwable): NetworkException {
-    return when (statusCode) {
+private fun mapToCustomException(statusCode: HttpStatusCode, cause: Throwable): NetworkException =
+    when (statusCode) {
         HttpStatusCode.NotFound -> NetworkException.NotFoundException(cause)
         HttpStatusCode.Conflict -> NetworkException.ConflictException(cause)
         HttpStatusCode.BadRequest -> NetworkException.BadRequestException(cause)
@@ -141,4 +138,3 @@ private fun mapToCustomException(statusCode: HttpStatusCode, cause: Throwable): 
         HttpStatusCode.UnprocessableEntity -> NetworkException.UnprocessableEntityException(cause)
         else -> NetworkException.UnknownException(cause)
     }
-}

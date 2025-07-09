@@ -10,8 +10,7 @@ private class AndroidPlatform : Platform {
     override val languageSystem: String = getSystemLanguage()
 
     // https://www.themoviedb.org/settings/api
-    override val accessToken: String = BuildConfig.TMDB_ACCESS_TOKEN.takeIf { it.isNotEmpty() }
-        ?: throw IllegalStateException("TMDB_ACCESS_TOKEN not found in BuildConfig. Please configure local.properties properly.")
+    override val accessToken: String = BuildConfig.TMDB_ACCESS_TOKEN.takeIf { it.isNotEmpty() } ?: ""
 }
 
 private fun getSystemLanguage(): String {
