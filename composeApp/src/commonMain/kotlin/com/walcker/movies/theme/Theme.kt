@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 
 @Composable
 internal fun MoviesAppTheme(
-    isDarkTheme: Boolean,
+    isDarkTheme: Boolean = true,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(

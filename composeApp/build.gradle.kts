@@ -45,6 +45,7 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
+            implementation(libs.composeIcons.fontAwesome)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
             implementation(compose.components.uiToolingPreview)

@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.walcker.movies.features.domain.models.Movie
 import com.walcker.movies.features.ui.preview.mockData.movieTestData
+import com.walcker.movies.theme.MoviesAppTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -21,7 +22,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 internal fun MovieSection(
     modifier: Modifier = Modifier,
     title: String,
-    movies: ImmutableList<Movie>
+    movies: ImmutableList<Movie>,
+    onPosterClick: (movieId: Int) -> Unit,
 ) {
     Column(
         modifier = modifier,
@@ -37,7 +39,10 @@ internal fun MovieSection(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(movies) { movie ->
-                MoviePoster(movie = movie)
+                MoviePoster(
+                    movie = movie,
+                    onPosterClick = onPosterClick
+                )
             }
         }
     }
@@ -46,10 +51,13 @@ internal fun MovieSection(
 @Composable
 @Preview
 private fun MovieSectionPreview() {
-    MovieSection(
-        title = "Filmes Populares",
-        movies = List(10) {
-            movieTestData
-        }.toImmutableList()
-    )
+    MoviesAppTheme {
+        MovieSection(
+            title = "Filmes Populares",
+            movies = List(10) {
+                movieTestData
+            }.toImmutableList(),
+            onPosterClick = {}
+        )
+    }
 }

@@ -25,6 +25,7 @@ lifecycle-version = "2.9.1"
 koin_version = "4.1.0"
 lyricist = "1.7.0"
 ksp = "2.1.10-1.0.31"
+composeIcons = "1.1.1"
 
 [libraries]
 androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
@@ -63,6 +64,7 @@ koin-compose-viewmodel-navigation = { module = "io.insert-koin:koin-compose-view
 lyricist = { module = "cafe.adriel.lyricist:lyricist", version.ref = "lyricist" }
 lyricist-processor = { module = "cafe.adriel.lyricist:lyricist-processor", version.ref = "lyricist" }
 ksp = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+composeIcons-fontAwesome = { module = "br.com.devsrsouza.compose.icons:font-awesome", version.ref = "composeIcons" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
