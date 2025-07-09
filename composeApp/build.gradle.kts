@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinKsp)
+    alias(libs.plugins.detekt)
     kotlin("plugin.serialization") version "2.2.0"
 }
 
@@ -18,6 +19,11 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
+    }
+    detekt {
+        toolVersion = libs.versions.detekt.get()
+        config.setFrom(file("config/detekt/detekt.yml"))
+        buildUponDefaultConfig = true
     }
     
     listOf(
@@ -119,7 +125,7 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }

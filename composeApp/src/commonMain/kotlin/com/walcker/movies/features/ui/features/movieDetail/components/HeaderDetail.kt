@@ -39,3 +39,6 @@ private fun HeaderDetailPreview() {
         )
     }
 }
+
+
+// Extra blank lines to test if detekt detects anything
