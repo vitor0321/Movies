@@ -24,3 +24,7 @@
 -keepclasseswithmembers class com.walcker.movies.** {
     kotlinx.serialization.KSerializer serializer(...);
 }
+# Ignorar classes de gerenciamento Java que não existem no Android
+-dontwarn java.lang.management.**
+-dontwarn javax.management.**
+-dontwarn io.ktor.util.debug.IntellijIdeaDebugDetector
