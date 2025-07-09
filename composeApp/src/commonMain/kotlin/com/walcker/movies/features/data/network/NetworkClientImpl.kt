@@ -100,6 +100,7 @@ internal class NetworkClientImpl : NetworkClient {
         }
     }
 
+    @Suppress("MagicNumber")
     private fun HttpClientConfig<*>.configureTimeouts() {
         install(plugin = HttpTimeout) {
             requestTimeoutMillis = 30_000

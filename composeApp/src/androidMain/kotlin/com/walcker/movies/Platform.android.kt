@@ -5,7 +5,7 @@ import java.util.Locale
 
 actual fun getPlatform(): Platform = AndroidPlatform()
 
-private class AndroidPlatform() : Platform {
+private class AndroidPlatform : Platform {
 
     override val languageSystem: String = getSystemLanguage()
 

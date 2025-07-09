@@ -14,7 +14,6 @@ import kotlin.math.pow
 /**
  * Retry helper for suspend functions.
  */
-
 internal sealed class RetryStrategy(val getDelay: (attempt: Int) -> Long) {
     internal data class Exponential(val ratio: Double = 2.0) : RetryStrategy(
         getDelay = { attempt ->

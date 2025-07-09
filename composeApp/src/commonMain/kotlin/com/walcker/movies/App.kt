@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.walcker.movies.di.coreModule
+import com.walcker.movies.features.ui.features.movieDetail.MovieDetailRoute
 import com.walcker.movies.features.ui.features.movies.MoviesListRoute
 import com.walcker.movies.navigation.AppRoutes
 import com.walcker.movies.strings.ProvideStrings
@@ -33,10 +34,14 @@ public fun App(
                     startDestination = AppRoutes.MoviesList
                 ) {
                     composable<AppRoutes.MoviesList> {
-                        MoviesListRoute()
+                        MoviesListRoute(
+                            navigateToMovieDetails = { movieId ->
+                                navController.navigate(AppRoutes.MovieDetail(movieId = movieId))
+                            }
+                        )
                     }
-                    composable<AppRoutes.MovieDetails> {
-
+                    composable<AppRoutes.MovieDetail> {
+                        MovieDetailRoute()
                     }
                 }
             }

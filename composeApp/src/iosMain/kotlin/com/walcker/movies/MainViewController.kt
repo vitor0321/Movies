@@ -4,17 +4,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.window.ComposeUIViewController
 import platform.UIKit.UIViewController
 
-private val isDarkThemeState = mutableStateOf(false)
+private val IsDarkThemeState = mutableStateOf(false)
 
-fun MainViewController(isDarkTheme: Boolean = false): UIViewController {
-    isDarkThemeState.value = isDarkTheme
+fun mainViewController(isDarkTheme: Boolean = false): UIViewController {
+    IsDarkThemeState.value = isDarkTheme
 
     return ComposeUIViewController {
-        App(isDarkTheme = isDarkThemeState.value)
+        App(isDarkTheme = IsDarkThemeState.value)
     }
 }
 
 fun updateTheme(controller: UIViewController, isDarkTheme: Boolean) {
-    isDarkThemeState.value = isDarkTheme
+    IsDarkThemeState.value = isDarkTheme
     controller.view?.setNeedsDisplay()
 }

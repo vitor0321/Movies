@@ -1,5 +1,6 @@
 package com.walcker.movies.features.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -14,24 +15,28 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.walcker.movies.features.domain.models.Movie
 import com.walcker.movies.features.ui.preview.mockData.movieTestData
+import com.walcker.movies.theme.MoviesAppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun MoviePoster(
     modifier: Modifier = Modifier,
     movie: Movie,
+    onPosterClick: (movieId: Int) -> Unit,
 ) {
     Column(
-        modifier = modifier.width(140.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier
+            .clickable { onPosterClick(movie.id) }
+            .width(140.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Card(
             modifier = Modifier
                 .width(140.dp)
                 .height(210.dp),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
         ) {
-            MovieAsyncImage(movie = movie)
+            MovieAsyncImage(imageUrl = movie.posterUrl)
         }
 
         Text(
@@ -46,7 +51,10 @@ internal fun MoviePoster(
 @Preview()
 @Composable
 private fun MoviePosterPreview() {
-    MoviePoster(
-        movie = movieTestData
-    )
+    MoviesAppTheme {
+        MoviePoster(
+            movie = movieTestData,
+            onPosterClick = {}
+        )
+    }
 }

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,9 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.walcker.movies.features.domain.models.MovieSection
 import com.walcker.movies.features.ui.components.MovieSection
+import com.walcker.movies.features.ui.components.MovieTopAppBar
 import com.walcker.movies.features.ui.preview.movies.MoviesListUiStateProvider
 import com.walcker.movies.strings.LocalStrings
 import com.walcker.movies.strings.features.MoviesListStrings
+import com.walcker.movies.theme.MoviesAppTheme
 import kotlinx.collections.immutable.ImmutableList
 import movies.composeapp.generated.resources.Res
 import movies.composeapp.generated.resources.error_image
@@ -37,22 +38,27 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun MoviesListRoute(
-    viewModel: MoviesListViewModel = koinViewModel()
+    viewModel: MoviesListViewModel = koinViewModel(),
+    navigateToMovieDetails: (Int) -> Unit,
 ) {
     val moviesListUiState by viewModel.moviesListUiState.collectAsStateWithLifecycle()
 
     MoviesListScreen(
         moviesListUiState = moviesListUiState,
+        onPosterClick = navigateToMovieDetails,
     )
 }
 
 @Composable
 private fun MoviesListScreen(
     moviesListUiState: MoviesListViewModel.MoviesListUiState,
+    onPosterClick: (movieId: Int) -> Unit,
 ) {
     val strings = LocalStrings.current
 
-    Scaffold { paddingValues ->
+    Scaffold(
+        topBar = { MovieTopAppBar(title = strings.appName) }
+    ) { paddingValues ->
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -65,7 +71,8 @@ private fun MoviesListScreen(
                 is MoviesListViewModel.MoviesListUiState.Success ->
                     MoviesListSuccessContent(
                         strings = strings.moviesListStrings,
-                        movies = moviesListUiState.movies
+                        movies = moviesListUiState.movies,
+                        onPosterClick = onPosterClick
                     )
 
                 is MoviesListViewModel.MoviesListUiState.Error ->
@@ -79,6 +86,7 @@ private fun MoviesListScreen(
 private fun MoviesListSuccessContent(
     strings: MoviesListStrings,
     movies: ImmutableList<MovieSection>,
+    onPosterClick: (movieId: Int) -> Unit,
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 16.dp),
@@ -87,7 +95,8 @@ private fun MoviesListSuccessContent(
         items(items = movies) { movieSection ->
             MovieSection(
                 title = movieSection.sectionType.title(strings),
-                movies = movieSection.movies
+                movies = movieSection.movies,
+                onPosterClick = onPosterClick
             )
         }
     }
@@ -129,9 +138,10 @@ private fun MoviesListErrorContent(message: String) {
 private fun MoviesListScreenPreview(
     @PreviewParameter(MoviesListUiStateProvider::class) uiState: MoviesListViewModel.MoviesListUiState,
 ) {
-    MaterialTheme {
+    MoviesAppTheme {
         MoviesListScreen(
             moviesListUiState = uiState,
+            onPosterClick = { },
         )
     }
 }

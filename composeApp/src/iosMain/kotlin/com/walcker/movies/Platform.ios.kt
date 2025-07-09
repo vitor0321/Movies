@@ -7,7 +7,7 @@ import platform.Foundation.preferredLanguages
 
 actual fun getPlatform(): Platform = IOSPlatform()
 
-class IOSPlatform() : Platform {
+class IOSPlatform : Platform {
 
     override val languageSystem: String = getSystemLanguage()
 
