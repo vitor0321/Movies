@@ -5,8 +5,8 @@ import com.walcker.movies.features.domain.models.exception.NetworkException
 
 internal object ExceptionMapper {
 
-    fun NetworkException.toExceptionPresentation(): ExceptionPresentation {
-        return when (this) {
+    fun NetworkException.toExceptionPresentation(): ExceptionPresentation =
+        when (this) {
             is NetworkException.NotFoundException -> ExceptionPresentation.NotFound
             is NetworkException.ConflictException -> ExceptionPresentation.Conflict
             is NetworkException.BadRequestException -> ExceptionPresentation.BadRequest
@@ -16,4 +16,3 @@ internal object ExceptionMapper {
             else -> ExceptionPresentation.UnknownError
         }
     }
-}
