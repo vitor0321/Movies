@@ -15,6 +15,9 @@ on:
 
 permissions:
   contents: read
+  security-events: write
+  issues: write
+  pull-requests: write
 
 jobs:
   mobile-security:
@@ -30,7 +33,7 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.10'
 
       - name: Run mobsfscan
         uses: MobSF/mobsfscan@a60d10a83af68e23e0b30611c6515da604f06f65
@@ -51,5 +54,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## 🔒 MobSF encontrou problemas de segurança\n\nVerifique a aba Security > Code scanning alerts para mais detalhes.\n\nOs problemas encontrados devem ser corrigidos antes do merge.`
+              body: `## 🔒 MobSF encontrou problemas de segurança \n\n Verifique a aba Security > Code scanning alerts para mais detalhes. \n\n Os problemas encontrados devem ser corrigidos antes do merge.`
             });
