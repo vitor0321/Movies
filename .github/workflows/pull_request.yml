@@ -55,5 +55,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## ❌ Testes falharam\n\nAlguns testes não passaram. Verifique os artefatos do workflow para mais detalhes.\n\nExecute localmente:\n\`\`\`bash\n./gradlew test\n\`\`\``
+              body: `## ❌ Testes falharam \n\n Alguns testes não passaram. Verifique os artefatos do workflow para mais detalhes. \n\n Execute localmente: \n \`\`\`bash\n./gradlew test \n \`\`\``
             });
