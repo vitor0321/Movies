@@ -1,4 +1,4 @@
-name: Detekt Analysis
+name: detekt
 
 on:
   push:
