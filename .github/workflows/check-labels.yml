@@ -1,0 +1,51 @@
+name: Check PR Requirements
+
+on:
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize, assigned, unassigned]
+
+jobs:
+  check-requirements:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check PR requirements
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo, number } = context.issue;
+            
+            // Verificar labels
+            const labelsResponse = await github.rest.issues.listLabelsOnIssue({
+              owner,
+              repo,
+              issue_number: number
+            });
+            const labels = labelsResponse.data.map(label => label.name);
+            const hasInternalLabel = labels.includes('internal');
+            
+            // Verificar assignees
+            const prResponse = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number: number
+            });
+            const hasAssignee = prResponse.data.assignees && prResponse.data.assignees.length > 0;
+            
+            // Registrar erros
+            let errorMessage = '';
+            
+            if (!hasInternalLabel) {
+              errorMessage += 'Pull Request precisa da label "internal". ';
+            }
+            
+            if (!hasAssignee) {
+              errorMessage += 'Pull Request precisa ter pelo menos um assignee. ';
+            }
+            
+            if (errorMessage) {
+              core.setFailed(errorMessage);
+            } else {
+              console.log('Todas as verificações passaram - OK');
+            }

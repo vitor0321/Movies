@@ -15,3 +15,9 @@ This is a Kotlin Multiplatform project targeting Android, iOS.
 [![Pull Request](https://github.com/vitor0321/Movies/actions/workflows/pull_request.yml/badge.svg)](https://github.com/vitor0321/Movies/actions/workflows/pull_request.yml)
 
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+
+## Contribuindo
+
+Para que um Pull Request seja aprovado, ele deve:
+- Incluir a label "internal"
+- Ter pelo menos um assignee designado
