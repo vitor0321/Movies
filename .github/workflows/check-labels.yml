@@ -10,12 +10,13 @@ jobs:
 
     steps:
       - name: Check PR requirements
-        uses: actions/github-script@v6
+        id: check-pr
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { owner, repo, number } = context.issue;
-            
+
             // Verificar labels
             const labelsResponse = await github.rest.issues.listLabelsOnIssue({
               owner,
@@ -24,7 +25,7 @@ jobs:
             });
             const labels = labelsResponse.data.map(label => label.name);
             const hasInternalLabel = labels.includes('internal');
-            
+
             // Verificar assignees
             const prResponse = await github.rest.pulls.get({
               owner,
@@ -32,20 +33,92 @@ jobs:
               pull_number: number
             });
             const hasAssignee = prResponse.data.assignees && prResponse.data.assignees.length > 0;
-            
-            // Registrar erros
+
+            // Construir mensagem de erro
             let errorMessage = '';
-            
+            let errors = [];
+
             if (!hasInternalLabel) {
-              errorMessage += 'Pull Request precisa da label "internal". ';
-            }
-            
-            if (!hasAssignee) {
-              errorMessage += 'Pull Request precisa ter pelo menos um assignee. ';
-            }
-            
-            if (errorMessage) {
-              core.setFailed(errorMessage);
+              errors.push('❌ Falta a label "internal"');
             } else {
-              console.log('Todas as verificações passaram - OK');
+              errors.push('✅ Label "internal" encontrada');
+            }
+
+            if (!hasAssignee) {
+              errors.push('❌ Falta designar pelo menos um assignee');
+            } else {
+              errors.push('✅ Assignee encontrado');
+            }
+
+            // Verificar se há erros genuínos (não apenas status)
+            const hasGenuineErrors = errors.some(error => error.includes('❌'));
+
+            if (hasGenuineErrors) {
+              errorMessage = errors.join('\n');
+              core.setOutput('has_errors', 'true');
+              core.setOutput('error_message', errorMessage);
+              core.setFailed("PR não atende a todos os requisitos");
+            } else {
+              core.setOutput('has_errors', 'false');
+              core.setOutput('error_message', errors.join('\n'));
+              console.log('✅ Todas as verificações passaram - OK');
+            }
+
+      - name: Update or create PR comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo, number } = context.issue;
+            const hasErrors = '${{ steps.check-pr.outputs.has_errors }}' === 'true';
+            
+            // Buscar comentários existentes
+            const comments = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number: number
+            });
+
+            // Identificar se já existe um comentário do bot
+            const botComment = comments.data.find(comment =>
+              comment.user.login === 'github-actions[bot]' &&
+              comment.body.includes('### Verificação de Requisitos do PR')
+            );
+
+            const errorMessage = `${{ steps.check-pr.outputs.error_message }}`;
+            let commentBody;
+            
+            if (hasErrors) {
+              commentBody = `### Verificação de Requisitos do PR
+
+            ⚠️ **Esse PR não atende a todos os requisitos necessários:**
+            
+            ${errorMessage}
+            
+            Por favor, corrija os problemas acima para que o PR possa ser aprovado.`;
+            } else {
+              commentBody = `### Verificação de Requisitos do PR
+            
+            ✅ **Todos os requisitos foram atendidos:**
+            
+            ${errorMessage}
+            
+            Seu PR está pronto para revisão!`;
+            }
+
+            // Atualizar ou criar o comentário
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: botComment.id,
+                body: commentBody
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: number,
+                body: commentBody
+              });
             }
