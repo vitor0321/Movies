@@ -1,4 +1,4 @@
-name: Detekt Analysis
+name: detekt
 
 on:
   push:
@@ -53,20 +53,11 @@ jobs:
       if: github.event_name == 'pull_request' && failure()
       uses: actions/github-script@v7
       with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const fs = require('fs');
-          const path = require('path');
-          
-          // Buscar arquivos de relatório do Detekt
-          const reportPath = 'composeApp/build/reports/detekt/detekt.xml';
-          
-          if (fs.existsSync(reportPath)) {
-            const reportContent = fs.readFileSync(reportPath, 'utf8');
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `## ❌ Detekt encontrou problemas de qualidade de código\n\nVerifique os artefatos do workflow para mais detalhes ou execute localmente:\n\`\`\`bash\n./gradlew detekt\n\`\`\``
-            });
-          }
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## ❌ Detekt encontrou problemas de qualidade de código\n\nVerifique os artefatos do workflow para mais detalhes ou execute localmente:\n\`\`\`bash\n./gradlew detekt\n\`\`\``
+          });

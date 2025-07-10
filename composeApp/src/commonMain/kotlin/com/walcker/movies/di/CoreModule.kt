@@ -9,8 +9,10 @@ internal val coreModule = listOf<Module>(
     // Data
     networkModule,
     repositoryModule,
+
     // Core
     dispatcherModule,
+
     // UI
     viewModelModule,
 )
