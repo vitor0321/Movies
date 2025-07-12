@@ -50,7 +50,7 @@ internal fun MoviePoster(
 
 @Preview()
 @Composable
-private fun MoviePosterPreview() {
+private fun Preview() {
     MoviesAppTheme {
         MoviePoster(
             movie = movieTestData,

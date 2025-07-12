@@ -3,7 +3,7 @@ package com.walcker.movies
 import com.walcker.movies.strings.Locales
 import java.util.Locale
 
-actual fun getPlatform(): Platform = AndroidPlatform()
+actual fun platformImpl(): Platform = AndroidPlatform()
 
 private class AndroidPlatform : Platform {
 

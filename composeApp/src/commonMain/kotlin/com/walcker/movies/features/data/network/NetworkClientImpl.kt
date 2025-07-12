@@ -2,7 +2,7 @@ package com.walcker.movies.features.data.network
 
 import com.walcker.movies.features.domain.models.exception.NetworkException
 import com.walcker.movies.features.domain.network.NetworkClient
-import com.walcker.movies.getPlatform
+import com.walcker.movies.platformImpl
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.plugins.ClientRequestException
@@ -31,7 +31,7 @@ internal class NetworkClientImpl : NetworkClient {
 
     private val accessToken: String =
         try {
-            getPlatform().accessToken
+            platformImpl().accessToken
         } catch (e: IllegalStateException) {
             Logger.SIMPLE.log("Error getting access token: ${e.message}")
             ""

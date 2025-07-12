@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.walcker.movies.features.domain.models.MovieSection
 import com.walcker.movies.features.domain.repository.MoviesRepository
-import com.walcker.movies.features.ui.handle.handleMessageError
+import com.walcker.movies.handle.handleMessageError
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,11 +13,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class MoviesListViewModel internal constructor(
-    private val moviesRepository: MoviesRepository
+    private val moviesRepository: MoviesRepository,
 ) : ViewModel() {
 
-    private val _moviesListUiState = MutableStateFlow<MoviesListUiState>(MoviesListUiState.Loading)
-    internal val moviesListUiState = _moviesListUiState.asStateFlow()
+    private val _uiState = MutableStateFlow<MoviesListUiState>(MoviesListUiState.Loading)
+    internal val uiState = _uiState.asStateFlow()
 
     init {
         getMovieSections()
@@ -31,17 +31,17 @@ internal class MoviesListViewModel internal constructor(
 
     private fun getMovieSections() {
         viewModelScope.launch {
-            runCatching {
-                moviesRepository.getMoviesSections()
-            }.onSuccess { movieSections ->
-                _moviesListUiState.update {
-                    MoviesListUiState.Success(movies = movieSections.toImmutableList())
+            moviesRepository.getMoviesSections()
+                .onSuccess { movieSections ->
+                    _uiState.update {
+                        MoviesListUiState.Success(movies = movieSections.toImmutableList())
+                    }
                 }
-            }.onFailure { error ->
-                _moviesListUiState.update {
-                    MoviesListUiState.Error(message = handleMessageError(exception = error))
+                .onFailure { error ->
+                    _uiState.update {
+                        MoviesListUiState.Error(message = handleMessageError(exception = error))
+                    }
                 }
-            }
         }
     }
 

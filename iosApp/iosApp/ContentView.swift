@@ -15,7 +15,7 @@ struct ComposeView: UIViewControllerRepresentable {
     var isDarkTheme: Bool
 
     func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController(isDarkTheme: isDarkTheme)
+        MainViewControllerKt.mainViewController(isDarkTheme: isDarkTheme)
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
@@ -24,6 +24,3 @@ struct ComposeView: UIViewControllerRepresentable {
         }
     }
 }
-
-
-

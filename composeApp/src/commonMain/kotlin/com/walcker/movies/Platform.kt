@@ -5,4 +5,4 @@ public interface Platform {
     val accessToken: String
 }
 
-public expect fun getPlatform(): Platform
+public expect fun platformImpl(): Platform

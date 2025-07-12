@@ -50,7 +50,7 @@ internal fun MovieSection(
 
 @Composable
 @Preview
-private fun MovieSectionPreview() {
+private fun Preview() {
     MoviesAppTheme {
         MovieSection(
             title = "Filmes Populares",

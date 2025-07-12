@@ -1,5 +1,6 @@
 package com.walcker.movies.features.ui.features.movieDetail.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +25,8 @@ import com.walcker.movies.features.domain.models.Movie
 import com.walcker.movies.features.ui.components.MovieBadge
 import com.walcker.movies.features.ui.components.MovieInfoItem
 import com.walcker.movies.features.ui.preview.mockData.movieTestData
+import com.walcker.movies.strings.features.MovieDetailString
+import com.walcker.movies.strings.features.movieDetailStringsPt
 import com.walcker.movies.theme.MoviesAppTheme
 import compose.icons.FontAwesomeIcons
 import compose.icons.fontawesomeicons.Solid
@@ -35,6 +40,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 internal fun BodyDetail(
     modifier: Modifier = Modifier,
     movie: Movie,
+    string: MovieDetailString,
+    onWatchClick: (Int) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -54,31 +61,38 @@ internal fun BodyDetail(
         ) {
             MovieInfoItem(
                 icon = FontAwesomeIcons.Solid.Star,
-                text = "7.6", // TODO move to real result
+                text = movie.rating,
             )
             Spacer(modifier = Modifier.width(16.dp))
-            MovieInfoItem(
-                icon = FontAwesomeIcons.Solid.Clock,
-                text = "2h 36 min", // TODO move to real result
-            )
+            movie.duration?.let { duration ->
+                MovieInfoItem(
+                    icon = FontAwesomeIcons.Solid.Clock,
+                    text = duration,
+                )
+            }
             Spacer(modifier = Modifier.width(16.dp))
             MovieInfoItem(
                 icon = FontAwesomeIcons.Solid.Calendar,
-                text = "2022", // TODO move to real result
+                text = movie.year,
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            MovieBadge(text = "Action") // TODO move to real result
+        movie.genres?.let { genres ->
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(genres) { genre ->
+                    MovieBadge(text = genre.name)
+                }
+            }
         }
         Spacer(modifier = Modifier.height(16.dp))
         ElevatedButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            onClick = { /* Handle button click */ }, // TODO move to real result
+            onClick = { onWatchClick(movie.id) },
         ) {
             Icon(
                 imageVector = FontAwesomeIcons.Solid.Play,
@@ -86,7 +100,7 @@ internal fun BodyDetail(
                 contentDescription = null,
             )
             Text(
-                text = "Watch Now", // TODO move to real result
+                text = string.buttonText,
                 modifier = Modifier.padding(start = 16.dp),
                 fontWeight = FontWeight.Medium,
                 style = MaterialTheme.typography.bodyMedium,
@@ -97,10 +111,12 @@ internal fun BodyDetail(
 
 @Preview
 @Composable
-internal fun BodyDetailPreview() {
+private fun Preview() {
     MoviesAppTheme {
         BodyDetail(
-            movie = movieTestData
+            movie = movieTestData,
+            string = movieDetailStringsPt,
+            onWatchClick = { },
         )
     }
 }

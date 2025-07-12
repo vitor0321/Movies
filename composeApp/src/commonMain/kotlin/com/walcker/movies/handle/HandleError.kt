@@ -1,4 +1,4 @@
-package com.walcker.movies.features.ui.handle
+package com.walcker.movies.handle
 
 import com.walcker.movies.features.domain.mapper.ExceptionMapper.toExceptionPresentation
 import com.walcker.movies.features.domain.models.exception.ExceptionPresentation
@@ -37,7 +37,6 @@ internal fun handleMessageError(exception: Throwable): String {
                     else -> "Um erro inesperado ocorreu. Tente novamente."
                 }
             } else {
-                // Type errors Networks
                 errorMessage.value = "Algo deu errado. Tente novamente mais tarde."
             }
         }
