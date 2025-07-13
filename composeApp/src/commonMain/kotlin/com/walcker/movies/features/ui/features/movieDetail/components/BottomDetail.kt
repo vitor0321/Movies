@@ -15,7 +15,6 @@ import com.walcker.movies.features.domain.models.Movie
 import com.walcker.movies.features.ui.components.MovieCastMemberItem
 import com.walcker.movies.features.ui.components.MovieRowList
 import com.walcker.movies.features.ui.preview.mockData.movieTestData
-import com.walcker.movies.strings.features.MovieDetailString
 import com.walcker.movies.theme.MoviesAppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
