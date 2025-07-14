@@ -1,4 +1,4 @@
-package com.walcker.movies.features.ui.preview.mockData
+package com.walcker.movies.mockData
 
 import com.walcker.movies.features.data.network.HttpConfig
 import com.walcker.movies.features.domain.models.Movie
