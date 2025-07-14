@@ -4,6 +4,9 @@ A modern multiplatform movie discovery app, built using the [The Movie Database 
 
 ---
 
+![img.png](img.png)
+![img_1.png](img_1.png)
+
 ## ⚙️ Clean Architecture
 
 The project follows **Clean Architecture** principles, enabling low coupling, high cohesion, and testability:
@@ -11,7 +14,7 @@ The project follows **Clean Architecture** principles, enabling low coupling, hi
 ```
 ├── data/ → Repositories, data sources (remote and local)
 ├── domain/ → Use Cases and business entities
-├── presentation/ → UI layer (Compose), ViewModels and UI states
+├── ui/ → UI layer (Compose), ViewModels and UI states
 ├── di/ → Dependency injection modules
 └── utils/ → Helpers, configuration, and reusable extensions
 ```
