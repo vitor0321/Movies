@@ -7,7 +7,7 @@ import kotlinx.collections.immutable.persistentListOf
 internal val movieTestData = Movie(
     id = 1,
     title = "A Minecraft Movie",
-    overview = "Movie Overview",
+    overview = "Movie Overview Test",
     posterUrl = "${HttpConfig.IMAGE_BASE_URL}/6WxhEvFsauuACfv8HyoVX6mZKFj.jpg",
     genres = persistentListOf(genre1TestData, genre2TestData),
     year = "2025",
