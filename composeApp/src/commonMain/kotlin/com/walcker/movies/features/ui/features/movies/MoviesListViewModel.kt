@@ -23,12 +23,6 @@ internal class MoviesListViewModel internal constructor(
         getMovieSections()
     }
 
-    internal fun onEvent(event: MoviesListInternalRoute) {
-        when (event) {
-            is MoviesListInternalRoute.OnTitleChecked -> {}
-        }
-    }
-
     private fun getMovieSections() {
         viewModelScope.launch {
             moviesRepository.getMoviesSections()

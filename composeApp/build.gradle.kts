@@ -32,7 +32,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "Movie"
             isStatic = true
         }
     }
@@ -79,7 +79,10 @@ kotlin {
             implementation(libs.ktor.client.logging)
         }
         commonTest.dependencies {
+            implementation(libs.androidx.testExt.junit)
+            implementation(libs.junit)
             implementation(libs.kotlin.test)
+            implementation(libs.kotlin.testJunit)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -121,10 +124,6 @@ android {
         }
     }
     buildTypes {
-        getByName("debug") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-        }
         debug {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
