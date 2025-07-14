@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import cafe.adriel.lyricist.Lyricist
 
-internal val LocalStrings = staticCompositionLocalOf<MoviesStrings> { error("LocalStrings not provided") }
+internal val LocalStrings = staticCompositionLocalOf<MoviesStrings> { error("LocalStrings not provided yet") }
 
 private fun createLyricist(
     defaultLanguageTag: String = Locales.EN,
