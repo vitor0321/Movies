@@ -45,7 +45,7 @@ internal fun MovieInfoItem(
 
 @Preview
 @Composable
-private fun MovieInfoItemPreview() {
+private fun Preview() {
     MoviesAppTheme {
         MovieInfoItem(
             icon = FontAwesomeIcons.Solid.Star,

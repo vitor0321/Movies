@@ -11,27 +11,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.walcker.movies.features.domain.models.Movie
 import com.walcker.movies.features.ui.components.MovieCastMemberItem
 import com.walcker.movies.features.ui.components.MovieRowList
 import com.walcker.movies.features.ui.preview.mockData.movieTestData
 import com.walcker.movies.theme.MoviesAppTheme
-import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun BottomDetail(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    movie: Movie,
 ) {
     Column(modifier = modifier) {
-        MovieRowList(
-            items = persistentListOf(movieTestData, movieTestData, movieTestData) // TODO move to real result
-        ) { castMember, width ->
-            MovieCastMemberItem(
-                modifier = Modifier.width(width.dp),
-                profilePictureUrl = castMember.posterUrl,
-                name = castMember.title,
-                character = castMember.overview
-            )
+        movie.castMembers?.let { castMembers ->
+            MovieRowList(
+                items = castMembers
+            ) { castMember, width ->
+                MovieCastMemberItem(
+                    modifier = Modifier.width(width.dp),
+                    imageUrl = castMember.profileUrl,
+                    name = castMember.name,
+                    character = castMember.character
+                )
+            }
         }
         Box(
             modifier = Modifier
@@ -40,8 +43,8 @@ internal fun BottomDetail(
             contentAlignment = Alignment.CenterStart
         ) {
             Text(
-                text = "Similar Movies  » See All » ", // TODO move to real result
-                style = MaterialTheme.typography.bodySmall,
+                text = movie.overview,
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
     }
@@ -49,8 +52,10 @@ internal fun BottomDetail(
 
 @Preview
 @Composable
-internal fun BottomDetailPreview() {
+private fun Preview() {
     MoviesAppTheme {
-        BottomDetail()
+        BottomDetail(
+            movie = movieTestData,
+        )
     }
 }

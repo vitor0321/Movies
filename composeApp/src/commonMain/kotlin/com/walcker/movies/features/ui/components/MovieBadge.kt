@@ -36,7 +36,7 @@ internal fun MovieBadge(
 
 @Preview()
 @Composable
-private fun MovieBadgeLightPreview() {
+private fun LightPreview() {
     MoviesAppTheme(isDarkTheme = false) {
         MovieBadge(
             text = "Badge",
@@ -46,7 +46,7 @@ private fun MovieBadgeLightPreview() {
 
 @Preview()
 @Composable
-private fun MovieBadgeDarkPreview() {
+private fun DarkPreview() {
     MoviesAppTheme(isDarkTheme = true) {
         MovieBadge(
             text = "Badge",

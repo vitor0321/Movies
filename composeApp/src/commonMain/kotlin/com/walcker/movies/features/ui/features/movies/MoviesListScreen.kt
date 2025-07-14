@@ -1,37 +1,22 @@
 package com.walcker.movies.features.ui.features.movies
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.walcker.movies.features.domain.models.MovieSection
-import com.walcker.movies.features.ui.components.MovieSection
 import com.walcker.movies.features.ui.components.MovieTopAppBar
+import com.walcker.movies.features.ui.components.MoviesErrorContent
+import com.walcker.movies.features.ui.components.MoviesLoadingContent
+import com.walcker.movies.features.ui.features.movies.components.MoviesListSuccessContent
 import com.walcker.movies.features.ui.preview.movies.MoviesListUiStateProvider
 import com.walcker.movies.strings.LocalStrings
 import com.walcker.movies.strings.features.MoviesListStrings
+import com.walcker.movies.strings.features.moviesListStringsPt
 import com.walcker.movies.theme.MoviesAppTheme
-import kotlinx.collections.immutable.ImmutableList
-import movies.composeapp.generated.resources.Res
-import movies.composeapp.generated.resources.error_image
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.koin.compose.viewmodel.koinViewModel
@@ -41,20 +26,22 @@ internal fun MoviesListRoute(
     viewModel: MoviesListViewModel = koinViewModel(),
     navigateToMovieDetails: (Int) -> Unit,
 ) {
-    val moviesListUiState by viewModel.moviesListUiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val strings = LocalStrings.current
 
     MoviesListScreen(
-        moviesListUiState = moviesListUiState,
+        uiState = uiState,
+        strings = strings.moviesListStrings,
         onPosterClick = navigateToMovieDetails,
     )
 }
 
 @Composable
 private fun MoviesListScreen(
-    moviesListUiState: MoviesListViewModel.MoviesListUiState,
+    uiState: MoviesListViewModel.MoviesListUiState,
+    strings: MoviesListStrings,
     onPosterClick: (movieId: Int) -> Unit,
 ) {
-    val strings = LocalStrings.current
 
     Scaffold(
         topBar = { MovieTopAppBar(title = strings.appName) }
@@ -64,38 +51,9 @@ private fun MoviesListScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            when (moviesListUiState) {
-                is MoviesListViewModel.MoviesListUiState.Loading ->
-                    MoviesListLoadingContent()
-
-                is MoviesListViewModel.MoviesListUiState.Success ->
-                    MoviesListSuccessContent(
-                        strings = strings.moviesListStrings,
-                        movies = moviesListUiState.movies,
-                        onPosterClick = onPosterClick
-                    )
-
-                is MoviesListViewModel.MoviesListUiState.Error ->
-                    MoviesListErrorContent(message = moviesListUiState.message)
-            }
-        }
-    }
-}
-
-@Composable
-private fun MoviesListSuccessContent(
-    strings: MoviesListStrings,
-    movies: ImmutableList<MovieSection>,
-    onPosterClick: (movieId: Int) -> Unit,
-) {
-    LazyColumn(
-        contentPadding = PaddingValues(vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(32.dp)
-    ) {
-        items(items = movies) { movieSection ->
-            MovieSection(
-                title = movieSection.sectionType.title(strings),
-                movies = movieSection.movies,
+            UiStateCheck(
+                uiState = uiState,
+                strings = strings,
                 onPosterClick = onPosterClick
             )
         }
@@ -103,44 +61,36 @@ private fun MoviesListSuccessContent(
 }
 
 @Composable
-private fun MoviesListLoadingContent() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(color = Color.LightGray)
-    }
-}
+private fun UiStateCheck(
+    uiState: MoviesListViewModel.MoviesListUiState,
+    strings: MoviesListStrings,
+    onPosterClick: (Int) -> Unit
+) {
+    when (uiState) {
+        is MoviesListViewModel.MoviesListUiState.Loading ->
+            MoviesLoadingContent()
 
-@Composable
-private fun MoviesListErrorContent(message: String) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            painterResource(resource = Res.drawable.error_image),
-            contentDescription = null,
-        )
-        Text(
-            text = message,
-            textAlign = TextAlign.Center,
-        )
+        is MoviesListViewModel.MoviesListUiState.Success ->
+            MoviesListSuccessContent(
+                strings = strings,
+                movies = uiState.movies,
+                onPosterClick = onPosterClick
+            )
+
+        is MoviesListViewModel.MoviesListUiState.Error ->
+            MoviesErrorContent(message = uiState.message)
     }
 }
 
 @Preview
 @Composable()
-private fun MoviesListScreenPreview(
+private fun Preview(
     @PreviewParameter(MoviesListUiStateProvider::class) uiState: MoviesListViewModel.MoviesListUiState,
 ) {
     MoviesAppTheme {
         MoviesListScreen(
-            moviesListUiState = uiState,
+            uiState = uiState,
+            strings = moviesListStringsPt,
             onPosterClick = { },
         )
     }

@@ -26,7 +26,7 @@ internal fun MovieTopAppBar(
     modifier: Modifier = Modifier,
     title: String = "",
     icon: ImageVector? = null,
-    onBackPressed: () -> Unit = {}
+    onNavigationBack: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier,
@@ -37,19 +37,19 @@ internal fun MovieTopAppBar(
             Box(
                 modifier = Modifier.padding(12.dp)
             ) {
-                IconButton(
-                    modifier = Modifier.size(32.dp),
-                    onClick = { onBackPressed },
-                    content = {
-                        icon?.let { imageVector ->
+                icon?.let { imageVector ->
+                    IconButton(
+                        modifier = Modifier.size(32.dp),
+                        onClick = { onNavigationBack() },
+                        content = {
                             Icon(
                                 modifier = Modifier.size(20.dp),
                                 imageVector = imageVector,
                                 contentDescription = ""
                             )
                         }
-                    }
-                )
+                    )
+                }
             }
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -60,7 +60,7 @@ internal fun MovieTopAppBar(
 
 @Preview
 @Composable
-private fun MovieTopAppBarPreview() {
+private fun Preview() {
     MoviesAppTheme(isDarkTheme = false) {
         MovieTopAppBar(
             title = "Movie Detail",

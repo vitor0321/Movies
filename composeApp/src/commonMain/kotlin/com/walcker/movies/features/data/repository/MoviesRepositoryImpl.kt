@@ -1,14 +1,17 @@
 package com.walcker.movies.features.data.repository
 
-import com.walcker.movies.features.data.helper.withRetry
+import com.walcker.movies.handle.withRetry
 import com.walcker.movies.features.data.mapper.MovieResponseMapper.toDomain
 import com.walcker.movies.features.domain.api.MovieApi
+import com.walcker.movies.features.domain.models.ImageSize
+import com.walcker.movies.features.domain.models.Movie
 import com.walcker.movies.features.domain.models.MovieSection
 import com.walcker.movies.features.domain.repository.MoviesRepository
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 
 internal class MoviesRepositoryImpl(
@@ -16,18 +19,23 @@ internal class MoviesRepositoryImpl(
     private val dispatcher: CoroutineDispatcher,
 ) : MoviesRepository {
 
-    override suspend fun getMoviesSections(): List<MovieSection> = withContext(dispatcher) {
-        val movieCategories = listOf(
-            MovieSection.SectionType.POPULAR,
-            MovieSection.SectionType.TOP_RATED,
-            MovieSection.SectionType.UPCOMING,
-        )
+    override suspend fun getMoviesSections(): Result<List<MovieSection>> =
+        withContext(dispatcher) {
+            runCatching {
+                coroutineScope {
+                    val movieCategories = listOf(
+                        MovieSection.SectionType.POPULAR,
+                        MovieSection.SectionType.TOP_RATED,
+                        MovieSection.SectionType.UPCOMING,
+                    )
 
-        val moviesDeferred = movieCategories.map { sectionType ->
-            async { fetchMoviesByCategory(sectionType) }
-        }
+                    val moviesDeferred = movieCategories.map { sectionType ->
+                        async { fetchMoviesByCategory(sectionType) }
+                    }
 
-        moviesDeferred.awaitAll()
+                    moviesDeferred.awaitAll()
+                }
+            }
     }
 
     private suspend fun fetchMoviesByCategory(sectionType: MovieSection.SectionType): MovieSection =
@@ -37,5 +45,23 @@ internal class MoviesRepositoryImpl(
                 sectionType = sectionType,
                 movies = movieResponse.results.map { it.toDomain() }.toImmutableList()
             )
+        }
+
+    override suspend fun getMovieDetail(movieId: Int): Result<Movie> =
+        withRetry(dispatcher = dispatcher) {
+            runCatching {
+                coroutineScope {
+                    val movieDetailDeferred = async { movieApi.getMovieDetail(movieId = movieId) }
+                    val creditsDeferred = async { movieApi.getCredits(movieId = movieId) }
+
+                    val movieDetailResponse = movieDetailDeferred.await()
+                    val creditsResponse = creditsDeferred.await()
+
+                    movieDetailResponse.toDomain(
+                        castMembersResponse = creditsResponse.cast,
+                        imageSize = ImageSize.X_LARGE,
+                    )
+                }
+            }
         }
 }

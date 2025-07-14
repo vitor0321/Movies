@@ -1,4 +1,4 @@
-package com.walcker.movies.features.data.helper
+package com.walcker.movies.handle
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

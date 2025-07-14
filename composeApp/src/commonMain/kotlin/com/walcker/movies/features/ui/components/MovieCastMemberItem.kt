@@ -22,7 +22,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 internal fun MovieCastMemberItem(
     modifier: Modifier = Modifier,
-    profilePictureUrl: String,
+    imageUrl: String?,
     name: String,
     character: String,
 ) {
@@ -43,7 +43,7 @@ internal fun MovieCastMemberItem(
                             bottomEnd = ZeroCornerSize,
                         )
                     ),
-                imageUrl = profilePictureUrl
+                imageUrl = imageUrl
             )
 
             Column(
@@ -68,10 +68,10 @@ internal fun MovieCastMemberItem(
 
 @Preview
 @Composable
-private fun MovieCastMemberItemPreview() {
+private fun Preview() {
     MoviesAppTheme {
         MovieCastMemberItem(
-            profilePictureUrl = "https://example.com/profile.jpg",
+            imageUrl = "https://example.com/profile.jpg",
             name = "John Doe",
             character = "Main Character"
         )

@@ -41,7 +41,7 @@ internal fun <T> MovieRowList(
 
 @Preview
 @Composable
-private fun MovieRowListPreview() {
+private fun Preview() {
     MoviesAppTheme {
         MovieRowList(
             items = persistentListOf(
@@ -52,7 +52,7 @@ private fun MovieRowListPreview() {
         ) { castMember, width ->
             MovieCastMemberItem(
                 modifier = Modifier.width(width.dp),
-                profilePictureUrl = castMember.posterUrl,
+                imageUrl = castMember.posterUrl,
                 name = castMember.title,
                 character = castMember.overview
             )

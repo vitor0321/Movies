@@ -5,7 +5,7 @@ import platform.Foundation.NSBundle
 import platform.Foundation.NSLocale
 import platform.Foundation.preferredLanguages
 
-actual fun getPlatform(): Platform = IOSPlatform()
+actual fun platformImpl(): Platform = IOSPlatform()
 
 class IOSPlatform : Platform {
 
@@ -21,7 +21,6 @@ private fun getSystemLanguage(): String {
     val languages = NSLocale.preferredLanguages()
     val primaryLanguage = languages.firstOrNull() ?: Locales.EN
 
-    // Para debug
     println("iOS detected language: $primaryLanguage")
 
     return when (primaryLanguage) {

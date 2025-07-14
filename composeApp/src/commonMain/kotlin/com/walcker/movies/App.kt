@@ -20,7 +20,7 @@ import org.koin.compose.KoinApplication
 public fun App(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
 ) {
-    val platform = getPlatform()
+    val platform = platformImpl()
     val lyricist = rememberStrings(currentLanguageTag = platform.languageSystem)
 
     KoinApplication(
@@ -41,7 +41,11 @@ public fun App(
                         )
                     }
                     composable<AppRoutes.MovieDetail> {
-                        MovieDetailRoute()
+                        MovieDetailRoute(
+                            onNavigationBack = {
+                                navController.popBackStack()
+                            }
+                        )
                     }
                 }
             }

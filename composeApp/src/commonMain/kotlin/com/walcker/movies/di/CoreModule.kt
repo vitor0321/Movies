@@ -12,6 +12,7 @@ internal val coreModule = listOf<Module>(
 
     // Core
     dispatcherModule,
+    platformModule,
 
     // UI
     viewModelModule,

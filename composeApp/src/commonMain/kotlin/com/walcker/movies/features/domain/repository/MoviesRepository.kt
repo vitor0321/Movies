@@ -1,8 +1,10 @@
 package com.walcker.movies.features.domain.repository
 
+import com.walcker.movies.features.domain.models.Movie
 import com.walcker.movies.features.domain.models.MovieSection
 
 internal interface MoviesRepository {
 
-    suspend fun getMoviesSections(): List<MovieSection>
+    suspend fun getMoviesSections(): Result<List<MovieSection>>
+    suspend fun getMovieDetail(movieId: Int): Result<Movie>
 }

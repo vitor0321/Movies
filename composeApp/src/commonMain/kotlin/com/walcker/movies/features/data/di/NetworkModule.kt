@@ -8,5 +8,5 @@ import org.koin.dsl.module
 
 internal val networkModule = module {
     single<NetworkClient> { NetworkClientImpl() }
-    single<MovieApi> { MovieApiImpl(networkClient = get()) }
+    single<MovieApi> { MovieApiImpl(networkClient = get(), platform = get()) }
 }

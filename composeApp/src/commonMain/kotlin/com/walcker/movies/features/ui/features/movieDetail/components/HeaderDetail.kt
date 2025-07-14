@@ -32,13 +32,10 @@ internal fun HeaderDetail(
 
 @Preview
 @Composable
-private fun HeaderDetailPreview() {
+private fun Preview() {
     MoviesAppTheme {
         HeaderDetail(
             posterUrl = "https://image.tmdb.org/t/p/w500/1LRLLWGvs5sZdTzuMqLEahb88Pc.jpg"
         )
     }
 }
-
-
-// Extra blank lines to test if detekt detects anything

@@ -27,7 +27,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 internal fun MovieAsyncImage(
     modifier: Modifier = Modifier,
-    imageUrl: String,
+    imageUrl: String?,
 ) {
     val loading = remember { mutableStateOf(false) }
 
@@ -58,7 +58,7 @@ internal fun MovieAsyncImage(
 
 @Preview
 @Composable
-private fun MovieAsyncImagePreview() {
+private fun Preview() {
     MoviesAppTheme {
         Card(
             modifier = Modifier
