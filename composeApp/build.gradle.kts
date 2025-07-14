@@ -32,7 +32,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "Movie"
             isStatic = true
         }
     }
@@ -42,44 +42,43 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
-            implementation(libs.androidx.navigation)
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.composeIcons.fontAwesome)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.runtime)
+            implementation(compose.ui)
+            implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.androidx.navigation)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.collections.immutable)
-
-            implementation(libs.koin.core)
+            implementation(libs.composeIcons.fontAwesome)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.compose.viewmodel.navigation)
-
-            implementation(libs.lyricist)
-
+            implementation(libs.koin.core)
             implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.serialization)
             implementation(libs.kotlinx.datetime)
-
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.serialization.json)
-            implementation(libs.ktor.content.negotiation)
+            implementation(libs.kotlinx.serialization)
             implementation(libs.ktor.client.auth)
+            implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.content.negotiation)
+            implementation(libs.ktor.serialization.json)
+            implementation(libs.lifecycle.viewmodel.compose)
+            implementation(libs.lyricist)
         }
         commonTest.dependencies {
+            implementation(libs.androidx.testExt.junit)
+            implementation(libs.junit)
             implementation(libs.kotlin.test)
+            implementation(libs.kotlin.testJunit)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -121,10 +120,6 @@ android {
         }
     }
     buildTypes {
-        getByName("debug") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-        }
         debug {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
