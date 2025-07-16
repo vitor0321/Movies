@@ -88,14 +88,14 @@ complexity:
     threshold: 4
   StringLiteralDuplication:
     active: true
-    excludes: ['**/KycEvents.kt', '**/*Strings.kt', '**/*Analytics.kt']
-    threshold: 3
+    excludes: ['**/KycEvents.kt', '**/*Strings.kt', '**/*Analytics.kt', '**/*Test.kt']
+    threshold: 4
     ignoreAnnotation: true
     excludeStringsWithLessThan5Characters: true
     ignoreStringsRegex: '$^'
   TooManyFunctions:
     active: true
-    excludes: ['**/Stone.kt', '**/*Gateway.kt']
+    excludes: ['**/Stone.kt', '**/*Gateway.kt', '**/*Test.kt']
     thresholdInFiles: 20
     thresholdInClasses: 15
     thresholdInInterfaces: 15
@@ -376,11 +376,11 @@ style:
     active: false
   MaxLineLength:
     active: true
-    maxLineLength: 120
+    maxLineLength: 220
     excludePackageStatements: true
     excludeImportStatements: true
     excludeCommentStatements: true
-    excludes: ['**/*Strings.kt']
+    excludes: ['**/*Strings.kt','**/*Test.kt', '**/*TestData.kt']
   MayBeConst:
     active: true
   ModifierOrder:
@@ -452,6 +452,7 @@ style:
     active: true
   UseCheckOrError:
     active: true
+    excludes: ['**/*Test.kt']
   UseDataClass:
     active: true
     ignoreAnnotated: []

@@ -1,6 +1,5 @@
 package com.walcker.movies.features.data.models
 
-import com.walcker.movies.mockData.data.castMemberResponse1TestData
 import com.walcker.movies.mockData.data.creditResponseJsonTestData
 import com.walcker.movies.mockData.data.creditsResponseTestData
 import kotlinx.serialization.json.Json

@@ -9,8 +9,8 @@ import com.walcker.movies.mockData.data.movieResponseTestData
 
 internal object FakeMovieApi {
 
-    internal fun createMockMovieApi(): MovieApi {
-        return object : MovieApi {
+    internal fun createMockMovieApi(): MovieApi =
+        object : MovieApi {
             override suspend fun getMovies(sectionType: MovieSection.SectionType) = movieListResponseTestData
 
             override suspend fun getMovieDetail(movieId: Int) = when (movieId) {
@@ -21,10 +21,9 @@ internal object FakeMovieApi {
 
             override suspend fun getCredits(movieId: Int) = creditsResponseTestData
         }
-    }
 
-    internal fun createMockMovieApiWithError(): MovieApi {
-        return object : MovieApi {
+    internal fun createMockMovieApiWithError(): MovieApi =
+        object : MovieApi {
             override suspend fun getMovies(sectionType: MovieSection.SectionType) =
                 throw RuntimeException("API Error")
 
@@ -34,5 +33,4 @@ internal object FakeMovieApi {
             override suspend fun getCredits(movieId: Int) =
                 throw RuntimeException("API Error")
         }
-    }
 }

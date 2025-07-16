@@ -3,23 +3,20 @@ package com.walcker.movies.features.data.repository
 import com.walcker.movies.features.domain.models.MovieSection
 import com.walcker.movies.mockFakes.FakeMovieApi.createMockMovieApi
 import com.walcker.movies.mockFakes.FakeMovieApi.createMockMovieApiWithError
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestCoroutineScheduler
+import com.walcker.movies.utils.CoroutineMainDispatcherTestRule
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-internal class MoviesRepositoryImplTest {
+internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
 
-    private val testScheduler = TestCoroutineScheduler()
-    private val testDispatcher = StandardTestDispatcher(testScheduler)
     private val mockMovieApi = createMockMovieApi()
-    private val repository = MoviesRepositoryImpl(mockMovieApi, testDispatcher)
+    private val repository = MoviesRepositoryImpl(mockMovieApi, dispatcher)
 
     @Test
-    fun `given movie api when getMoviesSections is called then should return all movie sections`() = runTest(testScheduler) {
+    fun `given movie api when getMoviesSections is called then should return all movie sections`() = runTest(dispatcher) {
         // Given // When
         val result = repository.getMoviesSections()
 
@@ -37,7 +34,7 @@ internal class MoviesRepositoryImplTest {
     }
 
     @Test
-    fun `given movie api when getMoviesSections is called then should return movies with correct data`() = runTest(testScheduler) {
+    fun `given movie api when getMoviesSections is called then should return movies with correct data`() = runTest(dispatcher) {
         // Given & When
         val result = repository.getMoviesSections()
 
@@ -71,7 +68,7 @@ internal class MoviesRepositoryImplTest {
     }
 
     @Test
-    fun `given movie api when getMoviesSections is called then should return popular section with correct type`() = runTest(testScheduler) {
+    fun `given movie api when getMoviesSections is called then should return popular section with correct type`() = runTest(dispatcher) {
         // Given & When
         val result = repository.getMoviesSections()
 
@@ -88,7 +85,7 @@ internal class MoviesRepositoryImplTest {
     }
 
     @Test
-    fun `given movie api when getMoviesSections is called then should return top rated section with correct type`() = runTest(testScheduler) {
+    fun `given movie api when getMoviesSections is called then should return top rated section with correct type`() = runTest(dispatcher) {
         // Given & When
         val result = repository.getMoviesSections()
 
@@ -105,7 +102,7 @@ internal class MoviesRepositoryImplTest {
     }
 
     @Test
-    fun `given movie api when getMoviesSections is called then should return upcoming section with correct type`() = runTest(testScheduler) {
+    fun `given movie api when getMoviesSections is called then should return upcoming section with correct type`() = runTest(dispatcher) {
         // Given & When
         val result = repository.getMoviesSections()
 
@@ -122,7 +119,7 @@ internal class MoviesRepositoryImplTest {
     }
 
     @Test
-    fun `given movie id when getMovieDetail is called then should return movie with cast members`() = runTest(testScheduler) {
+    fun `given movie id when getMovieDetail is called then should return movie with cast members`() = runTest(dispatcher) {
         // Given
         val movieId = 1
 
@@ -150,7 +147,7 @@ internal class MoviesRepositoryImplTest {
     }
 
     @Test
-    fun `given movie id when getMovieDetail is called then should use X_LARGE image size`() = runTest(testScheduler) {
+    fun `given movie id when getMovieDetail is called then should use X_LARGE image size`() = runTest(dispatcher) {
         // Given
         val movieId = 1
 
@@ -167,7 +164,7 @@ internal class MoviesRepositoryImplTest {
     }
 
     @Test
-    fun `given movie id when getMovieDetail is called then should include genres correctly`() = runTest(testScheduler) {
+    fun `given movie id when getMovieDetail is called then should include genres correctly`() = runTest(dispatcher) {
         // Given
         val movieId = 1
 
@@ -185,10 +182,10 @@ internal class MoviesRepositoryImplTest {
     }
 
     @Test
-    fun `given movie api throws exception when getMoviesSections is called then should return failure`() = runTest(testScheduler) {
+    fun `given movie api throws exception when getMoviesSections is called then should return failure`() = runTest(dispatcher) {
         // Given
         val mockMovieApiWithError = createMockMovieApiWithError()
-        val repositoryWithError = MoviesRepositoryImpl(mockMovieApiWithError, testDispatcher)
+        val repositoryWithError = MoviesRepositoryImpl(mockMovieApiWithError, dispatcher)
 
         // When
         val result = repositoryWithError.getMoviesSections()
@@ -199,10 +196,10 @@ internal class MoviesRepositoryImplTest {
     }
 
     @Test
-    fun `given movie api throws exception when getMovieDetail is called then should return failure`() = runTest(testScheduler) {
+    fun `given movie api throws exception when getMovieDetail is called then should return failure`() = runTest(dispatcher) {
         // Given
         val mockMovieApiWithError = createMockMovieApiWithError()
-        val repositoryWithError = MoviesRepositoryImpl(mockMovieApiWithError, testDispatcher)
+        val repositoryWithError = MoviesRepositoryImpl(mockMovieApiWithError, dispatcher)
 
         // When
         val result = repositoryWithError.getMovieDetail(1)
@@ -213,7 +210,7 @@ internal class MoviesRepositoryImplTest {
     }
 
     @Test
-    fun `given different movie ids when getMovieDetail is called then should return different movies`() = runTest(testScheduler) {
+    fun `given different movie ids when getMovieDetail is called then should return different movies`() = runTest(dispatcher) {
         // Given
         val movieId1 = 1
         val movieId2 = 2

@@ -23,11 +23,3 @@ internal val castMemberListTestData = persistentListOf(
     castMember1TestData,
     castMember2TestData
 )
-
-internal val castMemberWithNullProfileTestData = CastMember(
-    id = 287,
-    mainRole = "Acting",
-    name = "Brad Pitt",
-    character = "Tyler Durden",
-    profileUrl = null
-)
