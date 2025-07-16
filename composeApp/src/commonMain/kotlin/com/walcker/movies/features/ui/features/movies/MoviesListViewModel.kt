@@ -7,6 +7,7 @@ import com.walcker.movies.features.domain.repository.MoviesRepository
 import com.walcker.movies.handle.handleMessageError
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 
 internal class MoviesListViewModel internal constructor(
     private val moviesRepository: MoviesRepository,
+    private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<MoviesListUiState>(MoviesListUiState.Loading)
@@ -24,7 +26,7 @@ internal class MoviesListViewModel internal constructor(
     }
 
     private fun getMovieSections() {
-        viewModelScope.launch {
+        viewModelScope.launch(context = dispatcher) {
             moviesRepository.getMoviesSections()
                 .onSuccess { movieSections ->
                     _uiState.update {

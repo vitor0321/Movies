@@ -11,7 +11,12 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 internal val viewModelModule = module {
-    viewModel { MoviesListViewModel(moviesRepository = get()) }
+    viewModel {
+        MoviesListViewModel(
+            moviesRepository = get(),
+            dispatcher = get(named(Dispatcher.DEFAULT)),
+        )
+    }
     viewModel { (state: SavedStateHandle) ->
         MovieDetailViewModel(
             movieId = state.toRoute<AppRoutes.MovieDetail>().movieId,

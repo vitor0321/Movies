@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 internal class MovieDetailViewModel internal constructor(
     private val movieId: Int,
     private val moviesRepository: MoviesRepository,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<MovieDetailUiState>(MovieDetailUiState.Loading)
