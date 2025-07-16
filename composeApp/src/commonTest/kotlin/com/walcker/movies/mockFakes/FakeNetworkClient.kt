@@ -17,8 +17,7 @@ internal object FakeNetworkClient {
     fun createMockNetworkClient(
         mockResponses: Map<String, String> = emptyMap(),
         statusCode: HttpStatusCode = HttpStatusCode.OK
-    ): NetworkClient {
-        return object : NetworkClient {
+    ): NetworkClient = object : NetworkClient {
             override suspend fun httpClient(): HttpClient {
                 val mockEngine = MockEngine { request ->
                     val url = request.url.toString()
@@ -44,20 +43,17 @@ internal object FakeNetworkClient {
                 }
             }
         }
-    }
 
-    fun createMockNetworkClientWithCredits(creditsJson: String): NetworkClient {
-        return createMockNetworkClient(
+    fun createMockNetworkClientWithCredits(creditsJson: String): NetworkClient =
+        createMockNetworkClient(
             mockResponses = mapOf(
                 "credits" to creditsJson
             )
         )
-    }
 
     fun createMockNetworkClientWithError(
         errorCode: HttpStatusCode = HttpStatusCode.InternalServerError
-    ): NetworkClient {
-        return object : NetworkClient {
+    ): NetworkClient = object : NetworkClient {
             override suspend fun httpClient(): HttpClient {
                 val mockEngine = MockEngine {
                     respond(
@@ -78,5 +74,4 @@ internal object FakeNetworkClient {
                 }
             }
         }
-    }
 }

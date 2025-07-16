@@ -1,24 +1,21 @@
 package com.walcker.movies.features.ui.features.movieDetail
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import com.walcker.movies.features.domain.models.Movie
 import com.walcker.movies.features.domain.repository.MoviesRepository
 import com.walcker.movies.handle.handleMessageError
-import com.walcker.movies.navigation.AppRoutes
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class MovieDetailViewModel internal constructor(
-    savedStateHandle: SavedStateHandle,
+    private val movieId: Int,
     private val moviesRepository: MoviesRepository,
+    private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
-
-    private val movieDetailRoute = savedStateHandle.toRoute<AppRoutes.MovieDetail>()
 
     private val _uiState = MutableStateFlow<MovieDetailUiState>(MovieDetailUiState.Loading)
     internal val uiState = _uiState.asStateFlow()
@@ -28,8 +25,8 @@ internal class MovieDetailViewModel internal constructor(
     }
 
     private fun getMovieDetail() {
-        viewModelScope.launch {
-            moviesRepository.getMovieDetail(movieId = movieDetailRoute.movieId)
+        viewModelScope.launch(context = dispatcher) {
+            moviesRepository.getMovieDetail(movieId = movieId)
                 .onSuccess { movie ->
                     _uiState.update { MovieDetailUiState.Success(movie) }
                 }

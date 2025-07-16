@@ -4,12 +4,9 @@ import com.walcker.movies.features.data.mapper.MovieResponseMapper.toDomain
 import com.walcker.movies.features.data.network.HttpConfig
 import com.walcker.movies.features.domain.models.ImageSize
 import com.walcker.movies.mockData.data.castMemberResponse1TestData
-import com.walcker.movies.mockData.data.castMemberResponse2TestData
-import com.walcker.movies.mockData.data.movieResponseTestData
 import com.walcker.movies.mockData.data.movieResponse2TestData
-import com.walcker.movies.mockData.domain.genre1TestData
+import com.walcker.movies.mockData.data.movieResponseTestData
 import com.walcker.movies.mockData.domain.movieTestData
-import kotlinx.collections.immutable.toImmutableList
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
