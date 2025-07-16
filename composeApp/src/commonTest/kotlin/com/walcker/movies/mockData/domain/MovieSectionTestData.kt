@@ -1,4 +1,4 @@
-package com.walcker.movies.mockData
+package com.walcker.movies.mockData.domain
 
 import com.walcker.movies.features.domain.models.MovieSection
 import kotlinx.collections.immutable.persistentListOf

@@ -79,6 +79,8 @@ kotlin {
             implementation(libs.junit)
             implementation(libs.kotlin.test)
             implementation(libs.kotlin.testJunit)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.ktor.client.mock)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -149,4 +151,3 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.multidex)
 }
-

@@ -5,7 +5,7 @@ import com.walcker.movies.features.data.network.HttpConfig
 import com.walcker.movies.features.domain.models.CastMember
 import com.walcker.movies.features.domain.models.ImageSize
 
-internal object CastMemberMapper {
+internal object CastMemberResponseMapper {
     fun CastMemberResponse.toDomain() =
         CastMember(
             id = id,

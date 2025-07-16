@@ -1,7 +1,7 @@
 package com.walcker.movies.features.data.mapper
 
-import com.walcker.movies.features.data.mapper.CastMemberMapper.toDomain
-import com.walcker.movies.features.data.mapper.GenreMapper.toDomain
+import com.walcker.movies.features.data.mapper.CastMemberResponseMapper.toDomain
+import com.walcker.movies.features.data.mapper.GenreResponseMapper.toDomain
 import com.walcker.movies.features.data.models.CastMemberResponse
 import com.walcker.movies.features.data.models.MovieResponse
 import com.walcker.movies.features.data.network.HttpConfig
