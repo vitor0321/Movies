@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.kotlinKsp) apply false
     alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.paparazzi) apply false
 }
 
 configurations.all {
