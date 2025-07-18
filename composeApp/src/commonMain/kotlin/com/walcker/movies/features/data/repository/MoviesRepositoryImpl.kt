@@ -6,6 +6,7 @@ import com.walcker.movies.features.domain.api.MovieApi
 import com.walcker.movies.features.domain.models.ImageSize
 import com.walcker.movies.features.domain.models.Movie
 import com.walcker.movies.features.domain.models.MovieSection
+import com.walcker.movies.features.domain.models.MoviesPagination
 import com.walcker.movies.features.domain.repository.MoviesRepository
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,28 +20,29 @@ internal class MoviesRepositoryImpl(
     private val dispatcher: CoroutineDispatcher,
 ) : MoviesRepository {
 
-    override suspend fun getMoviesSections(): Result<List<MovieSection>> =
+    override suspend fun getMoviesSections(pagination: MoviesPagination): Result<List<MovieSection>> =
         withContext(dispatcher) {
             runCatching {
                 coroutineScope {
-                    val movieCategories = listOf(
-                        MovieSection.SectionType.POPULAR,
-                        MovieSection.SectionType.TOP_RATED,
-                        MovieSection.SectionType.UPCOMING,
-                    )
+                    val movieCategoriesWithPages = MovieSection.SectionType.entries.map { sectionType ->
+                        sectionType to pagination.pageFor(sectionType)
+                    }
 
-                    val moviesDeferred = movieCategories.map { sectionType ->
-                        async { fetchMoviesByCategory(sectionType) }
+                    val moviesDeferred = movieCategoriesWithPages.map { (sectionType, page) ->
+                        async { fetchMoviesByCategory(sectionType, page) }
                     }
 
                     moviesDeferred.awaitAll()
                 }
             }
-    }
+        }
 
-    private suspend fun fetchMoviesByCategory(sectionType: MovieSection.SectionType): MovieSection =
+    private suspend fun fetchMoviesByCategory(
+        sectionType: MovieSection.SectionType,
+        page: Int,
+    ): MovieSection =
         withRetry(dispatcher = dispatcher) {
-            val movieResponse = movieApi.getMovies(sectionType = sectionType)
+            val movieResponse = movieApi.getMovies(sectionType = sectionType, page = page)
             MovieSection(
                 sectionType = sectionType,
                 movies = movieResponse.results.map { it.toDomain() }.toImmutableList()

@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.walcker.movies.features.domain.models.MovieSection
 import com.walcker.movies.features.ui.components.MovieTopAppBar
 import com.walcker.movies.features.ui.components.MoviesErrorContent
 import com.walcker.movies.features.ui.components.MoviesLoadingContent
@@ -28,11 +30,14 @@ internal fun MoviesListRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val strings = LocalStrings.current
+    val loadNextPage: (MovieSection.SectionType) -> Unit =
+        remember(key1 = viewModel) { { sectionType -> viewModel.loadNextPage(sectionType) } }
 
     MoviesListScreen(
         uiState = uiState,
         strings = strings.moviesListStrings,
         onPosterClick = navigateToMovieDetails,
+        onLoadMore = loadNextPage
     )
 }
 
@@ -41,6 +46,7 @@ private fun MoviesListScreen(
     uiState: MoviesListViewModel.MoviesListUiState,
     strings: MoviesListStrings,
     onPosterClick: (movieId: Int) -> Unit,
+    onLoadMore: (MovieSection.SectionType) -> Unit
 ) {
 
     Scaffold(
@@ -54,7 +60,8 @@ private fun MoviesListScreen(
             UiStateCheck(
                 uiState = uiState,
                 strings = strings,
-                onPosterClick = onPosterClick
+                onPosterClick = onPosterClick,
+                onLoadMore = onLoadMore
             )
         }
     }
@@ -64,7 +71,8 @@ private fun MoviesListScreen(
 private fun UiStateCheck(
     uiState: MoviesListViewModel.MoviesListUiState,
     strings: MoviesListStrings,
-    onPosterClick: (Int) -> Unit
+    onPosterClick: (Int) -> Unit,
+    onLoadMore: (MovieSection.SectionType) -> Unit,
 ) {
     when (uiState) {
         is MoviesListViewModel.MoviesListUiState.Loading ->
@@ -74,7 +82,8 @@ private fun UiStateCheck(
             MoviesListSuccessContent(
                 strings = strings,
                 movies = uiState.movies,
-                onPosterClick = onPosterClick
+                onPosterClick = onPosterClick,
+                onLoadMore = onLoadMore
             )
 
         is MoviesListViewModel.MoviesListUiState.Error ->
@@ -92,6 +101,7 @@ private fun Preview(
             uiState = uiState,
             strings = moviesListStringsPt,
             onPosterClick = { },
+            onLoadMore = { }
         )
     }
 }

@@ -18,9 +18,13 @@ internal class MovieApiImpl(
     private val platform: Platform,
 ) : MovieApi {
 
-    override suspend fun getMovies(sectionType: MovieSection.SectionType): MovieListResponse =
+    override suspend fun getMovies(
+        sectionType: MovieSection.SectionType,
+        page: Int,
+    ): MovieListResponse =
         networkClient.httpClient().get("/3/movie/${sectionType.category}") {
             addLanguageParam()
+            addPageParam(page = page)
         }.body()
 
     override suspend fun getMovieDetail(movieId: Int): MovieResponse =
@@ -35,5 +39,9 @@ internal class MovieApiImpl(
 
     private fun HttpRequestBuilder.addLanguageParam() {
         parameter(HttpConfig.LANGUAGE.value, platform.languageSystem)
+    }
+
+    private fun HttpRequestBuilder.addPageParam(page: Int) {
+        parameter(HttpConfig.PAGE.value, page)
     }
 }
