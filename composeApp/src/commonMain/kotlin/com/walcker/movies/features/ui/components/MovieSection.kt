@@ -12,6 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.walcker.movies.features.domain.models.Movie
 import com.walcker.movies.features.ui.preview.mockData.movieTestData
@@ -47,6 +49,8 @@ internal fun MovieSection(
             text = title,
             modifier = Modifier.padding(horizontal = 16.dp),
             style = MaterialTheme.typography.titleLarge,
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.Bold
         )
         LazyRow(
             modifier = Modifier.padding(top = 8.dp),

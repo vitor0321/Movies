@@ -76,14 +76,14 @@ internal class MoviesListViewModelTest : CoroutineMainDispatcherTestRule() {
     fun `WHEN loadNextPage called THEN only that section is updated and Success state is emitted`() = runTest(dispatcher) {
         // Given
         val viewModel = createViewModel(FakeMoviesRepository.createSuccessRepository())
-        viewModel.uiState.filter { it is MoviesListViewModel.MoviesListUiState.Success }.first()
+        viewModel.uiState.filter { it is MoviesListUiState.Success }.first()
 
         // When
-        viewModel.loadNextPage(MovieSection.SectionType.POPULAR)
+        viewModel.onEvent(MoviesListInternalRoute.OnLoadNextPage(MovieSection.SectionType.POPULAR))
 
         // Then
-        val state = viewModel.uiState.filter { it is MoviesListViewModel.MoviesListUiState.Success }.first()
-        assertTrue(state is MoviesListViewModel.MoviesListUiState.Success)
+        val state = viewModel.uiState.filter { it is MoviesListUiState.Success }.first()
+        assertTrue(state is MoviesListUiState.Success)
 
         val sections = state.movies
         val updatedSection = sections.first { it.sectionType == MovieSection.SectionType.POPULAR }
@@ -96,10 +96,10 @@ internal class MoviesListViewModelTest : CoroutineMainDispatcherTestRule() {
         val errorViewModel = MoviesListViewModel(FakeMoviesRepository.createFailureRepository())
 
         // When
-        errorViewModel.loadNextPage(MovieSection.SectionType.TOP_RATED)
+        errorViewModel.onEvent(MoviesListInternalRoute.OnLoadNextPage(MovieSection.SectionType.TOP_RATED))
 
         // Then
-        val state = errorViewModel.uiState.filter { it is MoviesListViewModel.MoviesListUiState.Error }.first()
-        assertTrue(state is MoviesListViewModel.MoviesListUiState.Error)
+        val state = errorViewModel.uiState.filter { it is MoviesListUiState.Error }.first()
+        assertTrue(state is MoviesListUiState.Error)
     }
 }

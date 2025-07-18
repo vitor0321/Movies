@@ -48,7 +48,7 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
         assertNotNull(popularSection)
         assertEquals(MovieSection.SectionType.POPULAR, popularSection.sectionType)
         assertNotNull(popularSection.movies)
-        assertEquals(5, popularSection.movies.size)
+        assertEquals(2, popularSection.movies.size)
     }
 
     @Test
@@ -65,7 +65,7 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
         assertNotNull(topRatedSection)
         assertEquals(MovieSection.SectionType.TOP_RATED, topRatedSection.sectionType)
         assertNotNull(topRatedSection.movies)
-        assertEquals(5, topRatedSection.movies.size)
+        assertEquals(2, topRatedSection.movies.size)
     }
 
     @Test
@@ -82,7 +82,7 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
         assertNotNull(upcomingSection)
         assertEquals(MovieSection.SectionType.UPCOMING, upcomingSection.sectionType)
         assertNotNull(upcomingSection.movies)
-        assertEquals(5, upcomingSection.movies.size)
+        assertEquals(2, upcomingSection.movies.size)
     }
 
     @Test
@@ -213,7 +213,7 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
         assertNotNull(section)
         assertEquals(MovieSection.SectionType.POPULAR, section.sectionType)
         assertNotNull(section.movies)
-        assertEquals(5, section.movies.size)
+        assertEquals(2, section.movies.size)
     }
 
     @Test
@@ -227,7 +227,7 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
         assertNotNull(section)
         assertEquals(MovieSection.SectionType.HIGHLIGHT, section.sectionType)
         assertNotNull(section.movies)
-        assertEquals(5, section.movies.size)
+        assertEquals(2, section.movies.size)
     }
 
     @Test

@@ -22,7 +22,7 @@ internal object MovieResponseMapper {
             id = id,
             title = title,
             overview = overview,
-            posterUrl = HttpConfig.IMAGE_BASE_URL.value + "/${imageSize.size}/" + posterPath,
+            posterUrl = HttpConfig.IMAGE_BASE_URL.value + "/${imageSize.size}/" + posterPath.orEmpty(),
             genres = genres?.map { it.toDomain() }?.toImmutableList(),
             year = releaseDate.year.toString(),
             duration = getDurationInHoursAndMinutes(),

@@ -16,6 +16,8 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 
+private const val MAX_HIGHLIGHT_MOVIES = 5
+
 internal class MoviesRepositoryImpl(
     private val movieApi: MovieApi,
     private val dispatcher: CoroutineDispatcher,
@@ -38,17 +40,33 @@ internal class MoviesRepositoryImpl(
             }
         }
 
+    override suspend fun getMovieSection(sectionType: MovieSection.SectionType, page: Int): Result<MovieSection> =
+        withRetry(dispatcher = dispatcher) {
+            runCatching {
+                fetchMoviesByCategory(sectionType, page)
+            }
+        }
+
     private suspend fun fetchMoviesByCategory(
         sectionType: MovieSection.SectionType,
         page: Int,
-    ): MovieSection =
-        withRetry(dispatcher = dispatcher) {
-            val movieResponse = movieApi.getMovies(sectionType = sectionType, page = page)
-            MovieSection(
-                sectionType = sectionType,
-                movies = movieResponse.results.map { it.toDomain() }.toImmutableList()
-            )
-        }
+    ): MovieSection = withRetry(dispatcher = dispatcher) {
+        val movieResponse = movieApi.getMovies(sectionType = sectionType, page = page)
+        val imageSize =
+            if (sectionType != MovieSection.SectionType.HIGHLIGHT) ImageSize.SMALL
+            else ImageSize.MEDIUM
+
+        val moviesList = movieResponse.results.map { it.toDomain(imageSize = imageSize) }
+
+        val processedMovies =
+            if (sectionType != MovieSection.SectionType.HIGHLIGHT) moviesList
+            else moviesList.shuffled().take(MAX_HIGHLIGHT_MOVIES)
+
+        MovieSection(
+            sectionType = sectionType,
+            movies = processedMovies.toImmutableList()
+        )
+    }
 
     override suspend fun getMovieDetail(movieId: Int): Result<Movie> =
         withRetry(dispatcher = dispatcher) {

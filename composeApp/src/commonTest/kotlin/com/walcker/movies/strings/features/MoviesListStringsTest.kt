@@ -14,9 +14,9 @@ internal class MoviesListStringsTest {
         // Then
         assertNotNull(ptStrings)
         assertEquals("Filmes", ptStrings.appName)
-        assertEquals("Filmes Populares", ptStrings.popularMovies)
-        assertEquals("Filmes Mais Bem Avaliados", ptStrings.topRatedMovies)
-        assertEquals("Filmes em Breve", ptStrings.upcomingMovies)
+        assertEquals("Populares", ptStrings.popularMovies)
+        assertEquals("Mais Bem Avaliados", ptStrings.topRatedMovies)
+        assertEquals("Em Breve", ptStrings.upcomingMovies)
     }
 
     @Test
@@ -27,8 +27,8 @@ internal class MoviesListStringsTest {
         // Then
         assertNotNull(enStrings)
         assertEquals("Movies", enStrings.appName)
-        assertEquals("Popular Movies", enStrings.popularMovies)
-        assertEquals("Top Rated Movies", enStrings.topRatedMovies)
-        assertEquals("Upcoming Movies", enStrings.upcomingMovies)
+        assertEquals("Popular", enStrings.popularMovies)
+        assertEquals("Top Rated", enStrings.topRatedMovies)
+        assertEquals("Upcoming", enStrings.upcomingMovies)
     }
 }

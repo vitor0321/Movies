@@ -63,6 +63,13 @@ internal val movieListResponseTestData = MovieListResponse(
     results = listOf(
         movieResponseTestData,
         movieResponse2TestData,
+    )
+)
+
+internal val movieListResponse2TestData = MovieListResponse(
+    results = listOf(
+        movieResponseTestData,
+        movieResponse2TestData,
         movieResponse3TestData,
         movieResponse4TestData,
         movieResponse5TestData

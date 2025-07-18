@@ -15,7 +15,7 @@ internal data class MovieResponse(
     val title: String,
     val overview: String,
     @SerialName("poster_path")
-    val posterPath: String,
+    val posterPath: String? = null,
     val genres: List<GenreResponse>? = null,
     @SerialName("release_date")
     val releaseDate: LocalDate,

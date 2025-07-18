@@ -11,15 +11,15 @@ internal data class MoviesListStrings(
 internal val moviesListStringsPt = MoviesListStrings(
     appName = "Filmes",
     highlight = "Destaque",
-    popularMovies = "Filmes Populares",
-    topRatedMovies = "Filmes Mais Bem Avaliados",
-    upcomingMovies = "Filmes em Breve",
+    popularMovies = "Populares",
+    topRatedMovies = "Mais Bem Avaliados",
+    upcomingMovies = "Em Breve",
 )
 
 internal val moviesListStringsEn = MoviesListStrings(
     appName = "Movies",
     highlight = "Highlight",
-    popularMovies = "Popular Movies",
-    topRatedMovies = "Top Rated Movies",
-    upcomingMovies = "Upcoming Movies",
+    popularMovies = "Popular",
+    topRatedMovies = "Top Rated",
+    upcomingMovies = "Upcoming",
 )
