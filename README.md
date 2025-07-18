@@ -4,9 +4,13 @@ A modern multiplatform movie discovery app, built using the [The Movie Database 
 
 ---
 
-<img src="images/shimmer.png" width="250" alt="shimmer">
-<img src="images/home.png" width="250" alt="home">
-<img src="images/details.png" width="250" alt="details">
+<div align="center">
+  <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+    <img src="images/shimmer.png" width="250" alt="shimmer">
+    <img src="images/home.png" width="250" alt="home">
+    <img src="images/details.png" width="250" alt="details">
+  </div>
+</div>
 
 ## ⚙️ Clean Architecture
 
