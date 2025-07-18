@@ -43,11 +43,11 @@ internal fun HeaderSuccessContent(
     }
 
     Column(
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         LazyRow(
-            modifier = modifier.padding(top = 8.dp),
             contentPadding = PaddingValues(horizontal = 16.dp),
             state = listState,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -56,7 +56,7 @@ internal fun HeaderSuccessContent(
                 Card(
                     modifier = Modifier
                         .width(300.dp)
-                        .height(400.dp),
+                        .height(350.dp),
                     shape = RoundedCornerShape(12.dp),
                 ) {
                     MovieAsyncImage(

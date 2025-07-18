@@ -12,7 +12,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.walcker.movies.features.domain.models.MovieSection
 import com.walcker.movies.features.ui.components.MovieTopAppBar
 import com.walcker.movies.features.ui.components.MoviesErrorContent
-import com.walcker.movies.features.ui.components.MoviesLoadingContent
+import com.walcker.movies.features.ui.features.movies.components.MovieSplashScreen
 import com.walcker.movies.features.ui.features.movies.components.MoviesListSuccessContent
 import com.walcker.movies.features.ui.preview.movies.MoviesListUiStateProvider
 import com.walcker.movies.strings.LocalStrings
@@ -47,7 +47,6 @@ private fun MoviesListScreen(
     onPosterClick: (movieId: Int) -> Unit,
     onEvent: (MoviesListInternalRoute) -> Unit
 ) {
-
     Scaffold(
         topBar = { MovieTopAppBar(title = strings.appName) }
     ) { paddingValues ->
@@ -75,7 +74,7 @@ private fun UiStateCheck(
 ) {
     when (uiState) {
         is MoviesListUiState.Loading ->
-            MoviesLoadingContent()
+            MovieSplashScreen()
 
         is MoviesListUiState.Success ->
             MoviesListSuccessContent(
