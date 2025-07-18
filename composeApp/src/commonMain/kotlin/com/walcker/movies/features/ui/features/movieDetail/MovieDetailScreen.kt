@@ -3,10 +3,11 @@ package com.walcker.movies.features.ui.features.movieDetail
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -29,25 +30,34 @@ import org.koin.compose.viewmodel.koinViewModel
 internal fun MovieDetailRoute(
     viewModel: MovieDetailViewModel = koinViewModel(),
     onNavigationBack: () -> Unit,
+    onOpenTrailer: (String) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val trailerUrl by viewModel.trailerUrl.collectAsStateWithLifecycle()
     val strings = LocalStrings.current
+    val onEvent: (MovieDetailInternalRoute) -> Unit = remember { { viewModel.onEvent(it) } }
+
+    LaunchedEffect(key1 = trailerUrl) {
+        trailerUrl?.let { url ->
+            onOpenTrailer(url)
+            onEvent(MovieDetailInternalRoute.OnResetTrailerUrl)
+        }
+    }
 
     MovieDetailScreen(
         uiState = uiState,
         string = strings.movieDetailStrings,
-        onWatchClick = { /*TODO*/ },
         onNavigationBack = onNavigationBack,
+        onEvent = { onEvent(it) },
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MovieDetailScreen(
-    uiState: MovieDetailViewModel.MovieDetailUiState,
+    uiState: MovieDetailUiState,
     string: MovieDetailString,
-    onWatchClick: (Int) -> Unit,
     onNavigationBack: () -> Unit,
+    onEvent: (MovieDetailInternalRoute) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -67,7 +77,7 @@ internal fun MovieDetailScreen(
             UiStateCheck(
                 uiState = uiState,
                 string = string,
-                onWatchClick = onWatchClick
+                onWatchClick = { onEvent(MovieDetailInternalRoute.OnFetchTrailerUrl) }
             )
         }
     }
@@ -75,22 +85,22 @@ internal fun MovieDetailScreen(
 
 @Composable
 private fun UiStateCheck(
-    uiState: MovieDetailViewModel.MovieDetailUiState,
+    uiState: MovieDetailUiState,
     string: MovieDetailString,
-    onWatchClick: (Int) -> Unit
+    onWatchClick: () -> Unit
 ) {
     when (uiState) {
-        is MovieDetailViewModel.MovieDetailUiState.Loading ->
+        is MovieDetailUiState.Loading ->
             MoviesLoadingContent()
 
-        is MovieDetailViewModel.MovieDetailUiState.Success ->
+        is MovieDetailUiState.Success ->
             MovieDetailSuccessContent(
                 movie = uiState.movie,
                 string = string,
-                onWatchClick = onWatchClick,
+                onWatchClick = { onWatchClick() },
             )
 
-        is MovieDetailViewModel.MovieDetailUiState.Error ->
+        is MovieDetailUiState.Error ->
             MoviesErrorContent(message = uiState.message)
     }
 }
@@ -100,10 +110,10 @@ private fun UiStateCheck(
 private fun LightPreview() {
     MoviesAppTheme(isDarkTheme = false) {
         MovieDetailScreen(
-            uiState = MovieDetailViewModel.MovieDetailUiState.Success(movieTestData),
+            uiState = MovieDetailUiState.Success(movieTestData),
             string = movieDetailStringsPt,
-            onWatchClick = {},
             onNavigationBack = {},
+            onEvent = {},
         )
     }
 }
@@ -113,10 +123,10 @@ private fun LightPreview() {
 private fun DarkPreview() {
     MoviesAppTheme {
         MovieDetailScreen(
-            uiState = MovieDetailViewModel.MovieDetailUiState.Success(movieTestData),
+            uiState = MovieDetailUiState.Success(movieTestData),
             string = movieDetailStringsPt,
-            onWatchClick = {},
             onNavigationBack = {},
+            onEvent = {},
         )
     }
 }

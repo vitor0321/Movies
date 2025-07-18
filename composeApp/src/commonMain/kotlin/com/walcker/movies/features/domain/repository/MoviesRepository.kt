@@ -8,4 +8,5 @@ internal interface MoviesRepository {
 
     suspend fun getMoviesSections(pagination: MoviesPagination): Result<List<MovieSection>>
     suspend fun getMovieDetail(movieId: Int): Result<Movie>
+    suspend fun getTrailerUrl(movieId: Int): Result<String?>
 }

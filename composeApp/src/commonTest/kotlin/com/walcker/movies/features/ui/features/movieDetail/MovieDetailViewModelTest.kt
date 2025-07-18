@@ -20,7 +20,6 @@ internal class MovieDetailViewModelTest : CoroutineMainDispatcherTestRule() {
         MovieDetailViewModel(
             movieId = 1,
             moviesRepository = moviesRepository,
-            dispatcher = dispatcher,
         )
 
     @Test
@@ -33,7 +32,7 @@ internal class MovieDetailViewModelTest : CoroutineMainDispatcherTestRule() {
 
         println("uiState durante o teste: $uiState")
 
-        assertTrue(uiState is MovieDetailViewModel.MovieDetailUiState.Loading)
+        assertTrue(uiState is MovieDetailUiState.Loading)
     }
 
     @Test
@@ -42,11 +41,11 @@ internal class MovieDetailViewModelTest : CoroutineMainDispatcherTestRule() {
         val moviesRepository = FakeMoviesRepository.createSuccessRepository()
         val viewModel = createViewModel(moviesRepository = moviesRepository)
         // Then
-        val uiState = viewModel.uiState.filter { it !is MovieDetailViewModel.MovieDetailUiState.Loading }.first()
+        val uiState = viewModel.uiState.filter { it !is MovieDetailUiState.Loading }.first()
 
         println("uiState durante o teste: $uiState")
 
-        assertTrue(uiState is MovieDetailViewModel.MovieDetailUiState.Success)
+        assertTrue(uiState is MovieDetailUiState.Success)
         assertEquals(movieTestData1, uiState.movie)
     }
 
@@ -58,8 +57,52 @@ internal class MovieDetailViewModelTest : CoroutineMainDispatcherTestRule() {
         val viewModel = createViewModel(moviesRepository = moviesRepository)
 
         // Then
-        val uiState = viewModel.uiState.filter { it !is MovieDetailViewModel.MovieDetailUiState.Loading }.first()
-        assertTrue(uiState is MovieDetailViewModel.MovieDetailUiState.Error)
+        val uiState = viewModel.uiState.filter { it !is MovieDetailUiState.Loading }.first()
+        assertTrue(uiState is MovieDetailUiState.Error)
         assertEquals(errorMessage, uiState.message)
+    }
+
+    @Test
+    fun `GIVEN fetchTrailerUrl WHEN repository returns success THEN trailerUrl should be updated`() = runTest(dispatcher) {
+        // Given
+        val moviesRepository = FakeMoviesRepository.createSuccessRepository()
+        val viewModel = createViewModel(moviesRepository)
+
+        // When
+        viewModel.onEvent(MovieDetailInternalRoute.OnFetchTrailerUrl)
+
+        // Then
+        val trailerUrl = viewModel.trailerUrl.filter { it != null }.first()
+        assertEquals("https://www.youtube.com/watch?v=1234567890", trailerUrl)
+    }
+
+    @Test
+    fun `GIVEN fetchTrailerUrl WHEN repository returns failure THEN trailerUrl should be null`() = runTest(dispatcher) {
+        // Given
+        val moviesRepository = FakeMoviesRepository.createFailureRepository()
+        val viewModel = createViewModel(moviesRepository)
+
+        // When
+        viewModel.onEvent(MovieDetailInternalRoute.OnFetchTrailerUrl)
+
+        // Then
+        val trailerUrl = viewModel.trailerUrl.first()
+        assertEquals(null, trailerUrl)
+    }
+
+    @Test
+    fun `GIVEN resetTrailerUrl WHEN previously set THEN trailerUrl should be null`() = runTest(dispatcher) {
+        // Given
+        val moviesRepository = FakeMoviesRepository.createSuccessRepository()
+        val viewModel = createViewModel(moviesRepository)
+        viewModel.onEvent(MovieDetailInternalRoute.OnFetchTrailerUrl)
+        viewModel.trailerUrl.filter { it != null }.first()
+
+        // When
+        viewModel.onEvent(MovieDetailInternalRoute.OnResetTrailerUrl)
+
+        // Then
+        val trailerUrl = viewModel.trailerUrl.first()
+        assertEquals(null, trailerUrl)
     }
 }

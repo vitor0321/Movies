@@ -30,23 +30,22 @@ internal fun MoviesListRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val strings = LocalStrings.current
-    val loadNextPage: (MovieSection.SectionType) -> Unit =
-        remember(key1 = viewModel) { { sectionType -> viewModel.loadNextPage(sectionType) } }
+    val onEvent: (MoviesListInternalRoute) -> Unit = remember { { viewModel.onEvent(it) } }
 
     MoviesListScreen(
         uiState = uiState,
         strings = strings.moviesListStrings,
         onPosterClick = navigateToMovieDetails,
-        onLoadMore = loadNextPage
+        onEvent = onEvent
     )
 }
 
 @Composable
 private fun MoviesListScreen(
-    uiState: MoviesListViewModel.MoviesListUiState,
+    uiState: MoviesListUiState,
     strings: MoviesListStrings,
     onPosterClick: (movieId: Int) -> Unit,
-    onLoadMore: (MovieSection.SectionType) -> Unit
+    onEvent: (MoviesListInternalRoute) -> Unit
 ) {
 
     Scaffold(
@@ -61,7 +60,7 @@ private fun MoviesListScreen(
                 uiState = uiState,
                 strings = strings,
                 onPosterClick = onPosterClick,
-                onLoadMore = onLoadMore
+                onLoadMore = { onEvent(MoviesListInternalRoute.OnLoadNextPage(sectionType = it)) }
             )
         }
     }
@@ -69,16 +68,16 @@ private fun MoviesListScreen(
 
 @Composable
 private fun UiStateCheck(
-    uiState: MoviesListViewModel.MoviesListUiState,
+    uiState: MoviesListUiState,
     strings: MoviesListStrings,
     onPosterClick: (Int) -> Unit,
     onLoadMore: (MovieSection.SectionType) -> Unit,
 ) {
     when (uiState) {
-        is MoviesListViewModel.MoviesListUiState.Loading ->
+        is MoviesListUiState.Loading ->
             MoviesLoadingContent()
 
-        is MoviesListViewModel.MoviesListUiState.Success ->
+        is MoviesListUiState.Success ->
             MoviesListSuccessContent(
                 strings = strings,
                 movies = uiState.movies,
@@ -86,7 +85,7 @@ private fun UiStateCheck(
                 onLoadMore = onLoadMore
             )
 
-        is MoviesListViewModel.MoviesListUiState.Error ->
+        is MoviesListUiState.Error ->
             MoviesErrorContent(message = uiState.message)
     }
 }
@@ -94,14 +93,14 @@ private fun UiStateCheck(
 @Preview
 @Composable()
 private fun Preview(
-    @PreviewParameter(MoviesListUiStateProvider::class) uiState: MoviesListViewModel.MoviesListUiState,
+    @PreviewParameter(MoviesListUiStateProvider::class) uiState: MoviesListUiState,
 ) {
     MoviesAppTheme {
         MoviesListScreen(
             uiState = uiState,
             strings = moviesListStringsPt,
             onPosterClick = { },
-            onLoadMore = { }
+            onEvent = {},
         )
     }
 }

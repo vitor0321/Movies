@@ -1,6 +1,6 @@
 import UIKit
 import SwiftUI
-import ComposeApp
+import Movie
 
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme

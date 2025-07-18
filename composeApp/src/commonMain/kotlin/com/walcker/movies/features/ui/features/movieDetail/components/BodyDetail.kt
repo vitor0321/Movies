@@ -41,7 +41,7 @@ internal fun BodyDetail(
     modifier: Modifier = Modifier,
     movie: Movie,
     string: MovieDetailString,
-    onWatchClick: (Int) -> Unit,
+    onWatchClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -92,7 +92,7 @@ internal fun BodyDetail(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            onClick = { onWatchClick(movie.id) },
+            onClick = { onWatchClick() },
         ) {
             Icon(
                 imageVector = FontAwesomeIcons.Solid.Play,
