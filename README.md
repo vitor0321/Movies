@@ -167,8 +167,6 @@ This project aims to:
 ### 🔮 Next Steps
 * Local database support (e.g., SQLite, Realm, SQLDelight)
 
-* Pagination and infinite scroll
-
 * Compose multiplatform UI testing
 
 * Favorites feature with persistence layer

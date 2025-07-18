@@ -24,21 +24,22 @@ internal fun MoviesListSuccessContent(
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(32.dp)
+        verticalArrangement = Arrangement.spacedBy(32.dp),
     ) {
-        item {
-            HeaderSuccessContent(
-                movie = movies.last().movies.first(),
-                onPosterClick = onPosterClick
-            )
-        }
         items(items = movies) { movieSection ->
-            MovieSection(
-                title = movieSection.sectionType.title(strings),
-                movies = movieSection.movies,
-                onPosterClick = onPosterClick,
-                onLoadMore = { onLoadMore(movieSection.sectionType) }
-            )
+            if (movieSection.sectionType == MovieSection.SectionType.HIGHLIGHT)
+                HeaderSuccessContent(
+                    movies = movieSection.movies,
+                    onPosterClick = onPosterClick,
+                )
+
+            if (movieSection.sectionType != MovieSection.SectionType.HIGHLIGHT)
+                MovieSection(
+                    title = movieSection.sectionType.title(strings),
+                    movies = movieSection.movies,
+                    onPosterClick = onPosterClick,
+                    onLoadMore = { onLoadMore(movieSection.sectionType) },
+                )
         }
     }
 }
