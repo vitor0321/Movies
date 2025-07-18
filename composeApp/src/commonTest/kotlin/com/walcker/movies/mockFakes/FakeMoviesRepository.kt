@@ -6,7 +6,7 @@ import com.walcker.movies.features.domain.models.MovieSection
 import com.walcker.movies.features.domain.models.MoviesPagination
 import com.walcker.movies.features.domain.repository.MoviesRepository
 import com.walcker.movies.mockData.data.creditsResponseTestData
-import com.walcker.movies.mockData.data.movieListResponseTestData
+import com.walcker.movies.mockData.data.movieListResponse2TestData
 import com.walcker.movies.mockData.data.movieResponse2TestData
 import com.walcker.movies.mockData.data.movieResponseTestData
 import kotlinx.collections.immutable.toImmutableList
@@ -16,6 +16,16 @@ internal object FakeMoviesRepository {
     fun createSuccessRepository(): MoviesRepository = object : MoviesRepository {
         override suspend fun getMoviesSections(pagination: MoviesPagination): Result<List<MovieSection>> =
             Result.success(createDefaultSections())
+
+        override suspend fun getMovieSection(
+            sectionType: MovieSection.SectionType,
+            page: Int
+        ): Result<MovieSection> =
+            Result.success(
+                createDefaultSections().first { it.sectionType == sectionType }.copy(
+                    movies = movieListResponse2TestData.results.map { it.toDomain() }.toImmutableList()
+                )
+            )
 
         override suspend fun getMovieDetail(movieId: Int): Result<Movie> =
             Result.success(createMovieDetail(movieId))
@@ -30,6 +40,11 @@ internal object FakeMoviesRepository {
         override suspend fun getMoviesSections(pagination: MoviesPagination): Result<List<MovieSection>> =
             Result.failure(exception)
 
+        override suspend fun getMovieSection(
+            sectionType: MovieSection.SectionType,
+            page: Int
+        ): Result<MovieSection> = Result.failure(exception)
+
         override suspend fun getMovieDetail(movieId: Int): Result<Movie> =
             Result.failure(exception)
 
@@ -41,7 +56,7 @@ internal object FakeMoviesRepository {
         MovieSection.SectionType.entries.map { sectionType ->
             MovieSection(
                 sectionType = sectionType,
-                movies = movieListResponseTestData.results.map { it.toDomain() }.toImmutableList()
+                movies = movieListResponse2TestData.results.map { it.toDomain() }.toImmutableList()
             )
         }
 

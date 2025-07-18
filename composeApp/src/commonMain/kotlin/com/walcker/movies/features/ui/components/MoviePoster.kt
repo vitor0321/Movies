@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,27 +25,34 @@ internal fun MoviePoster(
     movie: Movie,
     onPosterClick: (movieId: Int) -> Unit,
 ) {
-    Column(
+    Surface(
         modifier = modifier
-            .clickable { onPosterClick(movie.id) }
-            .width(140.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Card(
-            modifier = Modifier
-                .width(140.dp)
-                .height(210.dp),
-            shape = RoundedCornerShape(12.dp),
+            .width(140.dp)
+            .height(230.dp),
+        color = MaterialTheme.colorScheme.background
         ) {
-            MovieAsyncImage(imageUrl = movie.posterUrl)
-        }
+        Column(
+            modifier = Modifier
+                .clickable { onPosterClick(movie.id) }
+                .width(140.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Card(
+                modifier = Modifier
+                    .width(140.dp)
+                    .height(210.dp),
+                shape = RoundedCornerShape(12.dp),
+            ) {
+                MovieAsyncImage(imageUrl = movie.posterUrl)
+            }
 
-        Text(
-            text = movie.title,
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.titleMedium,
-            maxLines = 1,
-        )
+            Text(
+                text = movie.title,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+            )
+        }
     }
 }
 

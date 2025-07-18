@@ -13,7 +13,7 @@ internal class MovieDetailStringTest {
 
         // Then
         assertNotNull(ptStrings)
-        assertEquals("Detalhes do filme", ptStrings.title)
+        assertEquals("Detalhes", ptStrings.title)
         assertEquals("Assistir trailer", ptStrings.buttonText)
     }
 
@@ -24,7 +24,7 @@ internal class MovieDetailStringTest {
 
         // Then
         assertNotNull(enStrings)
-        assertEquals("Movie details", enStrings.title)
+        assertEquals("Details", enStrings.title)
         assertEquals("Watch trailer", enStrings.buttonText)
     }
 }

@@ -3,9 +3,10 @@
 A modern multiplatform movie discovery app, built using the [The Movie Database (TMDb)](https://www.themoviedb.org/) API. Developed with **Kotlin Multiplatform** and **Compose Multiplatform (CMP)**, this project showcases best practices in architecture, shared business logic, and declarative UI.
 
 ---
+![Captura de Tela 2025-07-18 às 19.45.59.png](../../../Downloads/Captura%20de%20Tela%202025-07-18%20%C3%A0s%2019.45.59.png)
+![img_2.png](img_2.png)
+![img_3.png](img_3.png)
 
-![img.png](img.png)
-![img_1.png](img_1.png)
 
 ## ⚙️ Clean Architecture
 
@@ -166,8 +167,6 @@ This project aims to:
 
 ### 🔮 Next Steps
 * Local database support (e.g., SQLite, Realm, SQLDelight)
-
-* Pagination and infinite scroll
 
 * Compose multiplatform UI testing
 

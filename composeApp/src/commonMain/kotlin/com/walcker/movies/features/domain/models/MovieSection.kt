@@ -11,6 +11,10 @@ internal data class MovieSection(
         val title: (MoviesListStrings) -> String,
         val category: String,
     ) {
+        HIGHLIGHT(
+            title = { strings -> strings.highlight },
+            category = "now_playing",
+        ),
         POPULAR(
             title = { strings -> strings.popularMovies },
             category = "popular",

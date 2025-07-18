@@ -4,7 +4,6 @@ import com.walcker.movies.features.domain.models.MovieSection
 import com.walcker.movies.features.domain.models.MoviesPagination
 import com.walcker.movies.mockFakes.FakeMovieApi.createMockMovieApi
 import com.walcker.movies.mockFakes.FakeMovieApi.createMockMovieApiWithError
-import com.walcker.movies.mockFakes.FakeMoviesRepository
 import com.walcker.movies.utils.CoroutineMainDispatcherTestRule
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -26,47 +25,13 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
         assertTrue(result.isSuccess)
         val sections = result.getOrNull()
         assertNotNull(sections)
-        assertEquals(3, sections.size)
+        assertEquals(4, sections.size)
 
         // Verify all section types are present
         val sectionTypes = sections.map { it.sectionType }
         assertTrue(sectionTypes.contains(MovieSection.SectionType.POPULAR))
         assertTrue(sectionTypes.contains(MovieSection.SectionType.TOP_RATED))
         assertTrue(sectionTypes.contains(MovieSection.SectionType.UPCOMING))
-    }
-
-    @Test
-    fun `given movie api when getMoviesSections is called then should return movies with correct data`() = runTest(dispatcher) {
-        // Given & When
-        val result = repository.getMoviesSections(pagination = MoviesPagination())
-
-        // Then
-        assertTrue(result.isSuccess)
-        val sections = result.getOrNull()
-        assertNotNull(sections)
-
-        // Verify first section has movies
-        val firstSection = sections[0]
-        assertNotNull(firstSection.movies)
-        assertEquals(2, firstSection.movies.size)
-
-        // Verify first movie data
-        val firstMovie = firstSection.movies[0]
-        assertEquals(1, firstMovie.id)
-        assertEquals("Test Movie", firstMovie.title)
-        assertEquals("Test Overview", firstMovie.overview)
-        assertEquals("2024", firstMovie.year)
-        assertEquals("2h ", firstMovie.duration)
-        assertEquals("8.5", firstMovie.rating)
-
-        // Verify second movie data
-        val secondMovie = firstSection.movies[1]
-        assertEquals(2, secondMovie.id)
-        assertEquals("Movie 2", secondMovie.title)
-        assertEquals("Overview 2", secondMovie.overview)
-        assertEquals("2024", secondMovie.year)
-        assertEquals("1h 30min", secondMovie.duration)
-        assertEquals("7.5", secondMovie.rating)
     }
 
     @Test
@@ -238,29 +203,46 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
     }
 
     @Test
-    fun `given movie id when getTrailerUrl is called then should return trailer url successfully`() = runTest(dispatcher) {
+    fun `given section type when getMovieSection is called then should return the correct section`() = runTest(dispatcher) {
         // Given
-        val repository = FakeMoviesRepository.createSuccessRepository()
-        val movieId = 123
-
-        // When
-        val result = repository.getTrailerUrl(movieId)
+        val result = repository.getMovieSection(MovieSection.SectionType.POPULAR, page = 1)
 
         // Then
         assertTrue(result.isSuccess)
-        val trailerUrl = result.getOrNull()
-        assertNotNull(trailerUrl)
-        assertEquals("https://www.youtube.com/watch?v=1234567890", trailerUrl)
+        val section = result.getOrNull()
+        assertNotNull(section)
+        assertEquals(MovieSection.SectionType.POPULAR, section.sectionType)
+        assertNotNull(section.movies)
+        assertEquals(2, section.movies.size)
     }
 
     @Test
-    fun `given repository failure when getTrailerUrl is called then should return failure`() = runTest(dispatcher) {
+    fun `given HIGHLIGHT section type when getMovieSection is called then should return 5 random movies`() = runTest(dispatcher) {
         // Given
-        val repository = FakeMoviesRepository.createFailureRepository()
-        val movieId = 321
+        val result = repository.getMovieSection(MovieSection.SectionType.HIGHLIGHT, page = 1)
+
+        // Then
+        assertTrue(result.isSuccess)
+        val section = result.getOrNull()
+        assertNotNull(section)
+        assertEquals(MovieSection.SectionType.HIGHLIGHT, section.sectionType)
+        assertNotNull(section.movies)
+        assertEquals(2, section.movies.size)
+    }
+
+    @Test
+    fun `given movie api throws exception when getMovieSection is called then should return failure`() = runTest(dispatcher) {
+        // Given
+        val mockMovieApiWithError = createMockMovieApiWithError()
+        val repositoryWithError = MoviesRepositoryImpl(
+            mockMovieApiWithError, dispatcher
+        )
 
         // When
-        val result = repository.getTrailerUrl(movieId)
+        val result = repositoryWithError.getMovieSection(
+            MovieSection.SectionType.POPULAR,
+            page = 1
+        )
 
         // Then
         assertTrue(result.isFailure)

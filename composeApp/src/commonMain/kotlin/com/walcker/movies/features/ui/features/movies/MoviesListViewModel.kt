@@ -55,7 +55,24 @@ internal class MoviesListViewModel internal constructor(
 
     private fun loadNextPage(sectionType: MovieSection.SectionType) {
         currentPagination = currentPagination.increment(sectionType)
-        getMovieSections()
+        viewModelScope.launch {
+            moviesRepository.getMovieSection(sectionType, currentPagination.pageFor(sectionType))
+                .onSuccess { newSection ->
+                    updateLoadedSections(listOf(newSection))
+
+                    val orderedSections = MovieSection.SectionType.entries
+                        .mapNotNull { loadedSections[it] }
+
+                    _uiState.update {
+                        MoviesListUiState.Success(movies = orderedSections.toImmutableList())
+                    }
+                }
+                .onFailure { error ->
+                    _uiState.update {
+                        MoviesListUiState.Error(message = handleMessageError(exception = error))
+                    }
+                }
+        }
     }
 
     private fun updateLoadedSections(newSections: List<MovieSection>) {

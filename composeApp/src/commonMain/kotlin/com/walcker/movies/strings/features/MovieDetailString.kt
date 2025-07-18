@@ -6,11 +6,11 @@ internal data class MovieDetailString(
 )
 
 internal val movieDetailStringsPt = MovieDetailString(
-    title = "Detalhes do filme",
+    title = "Detalhes",
     buttonText = "Assistir trailer",
 )
 
 internal val movieDetailStringsEn = MovieDetailString(
-    title = "Movie details",
+    title = "Details",
     buttonText = "Watch trailer",
 )
