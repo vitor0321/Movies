@@ -3,9 +3,10 @@
 A modern multiplatform movie discovery app, built using the [The Movie Database (TMDb)](https://www.themoviedb.org/) API. Developed with **Kotlin Multiplatform** and **Compose Multiplatform (CMP)**, this project showcases best practices in architecture, shared business logic, and declarative UI.
 
 ---
-![shimmer.png](images/shimmer.png)
-![home.png](images/home.png)
-![details.png](images/details.png)
+
+<img src="images/shimmer.png" width="250" alt="shimmer">
+<img src="images/home.png" width="250" alt="home">
+<img src="images/details.png" width="250" alt="details">
 
 ## ⚙️ Clean Architecture
 
