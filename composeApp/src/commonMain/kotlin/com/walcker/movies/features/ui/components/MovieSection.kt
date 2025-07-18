@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.walcker.movies.features.domain.models.Movie
@@ -24,7 +26,20 @@ internal fun MovieSection(
     title: String,
     movies: ImmutableList<Movie>,
     onPosterClick: (movieId: Int) -> Unit,
+    onLoadMore: (() -> Unit)? = null,
 ) {
+    val listState = rememberLazyListState()
+
+    if (onLoadMore != null) {
+        LaunchedEffect(listState.firstVisibleItemIndex, listState.layoutInfo.totalItemsCount) {
+            val lastVisible = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
+            val total = listState.layoutInfo.totalItemsCount
+            if (lastVisible != null && total > 0 && lastVisible >= total - 3) {
+                onLoadMore()
+            }
+        }
+    }
+
     Column(
         modifier = modifier,
     ) {
@@ -36,6 +51,7 @@ internal fun MovieSection(
         LazyRow(
             modifier = Modifier.padding(top = 8.dp),
             contentPadding = PaddingValues(horizontal = 16.dp),
+            state = listState,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(movies) { movie ->

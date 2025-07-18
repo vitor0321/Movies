@@ -20,16 +20,24 @@ internal fun MoviesListSuccessContent(
     strings: MoviesListStrings,
     movies: ImmutableList<MovieSection>,
     onPosterClick: (movieId: Int) -> Unit,
+    onLoadMore: (MovieSection.SectionType) -> Unit
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(32.dp)
     ) {
+        item {
+            HeaderSuccessContent(
+                movie = movies.last().movies.first(),
+                onPosterClick = onPosterClick
+            )
+        }
         items(items = movies) { movieSection ->
             MovieSection(
                 title = movieSection.sectionType.title(strings),
                 movies = movieSection.movies,
-                onPosterClick = onPosterClick
+                onPosterClick = onPosterClick,
+                onLoadMore = { onLoadMore(movieSection.sectionType) }
             )
         }
     }
@@ -42,7 +50,8 @@ private fun Preview() {
         MoviesListSuccessContent(
             strings = moviesListStringsPt,
             movies = movieSectionTestData,
-            onPosterClick = {}
+            onPosterClick = {},
+            onLoadMore = {}
         )
     }
 }

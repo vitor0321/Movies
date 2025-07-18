@@ -11,7 +11,7 @@ internal object FakeMovieApi {
 
     internal fun createMockMovieApi(): MovieApi =
         object : MovieApi {
-            override suspend fun getMovies(sectionType: MovieSection.SectionType) = movieListResponseTestData
+            override suspend fun getMovies(sectionType: MovieSection.SectionType, page: Int) = movieListResponseTestData
 
             override suspend fun getMovieDetail(movieId: Int) = when (movieId) {
                 1 -> movieResponseTestData
@@ -24,7 +24,7 @@ internal object FakeMovieApi {
 
     internal fun createMockMovieApiWithError(): MovieApi =
         object : MovieApi {
-            override suspend fun getMovies(sectionType: MovieSection.SectionType) =
+            override suspend fun getMovies(sectionType: MovieSection.SectionType, page: Int) =
                 throw RuntimeException("API Error")
 
             override suspend fun getMovieDetail(movieId: Int) =

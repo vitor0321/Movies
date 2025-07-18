@@ -3,6 +3,7 @@ package com.walcker.movies.mockFakes
 import com.walcker.movies.features.data.mapper.MovieResponseMapper.toDomain
 import com.walcker.movies.features.domain.models.Movie
 import com.walcker.movies.features.domain.models.MovieSection
+import com.walcker.movies.features.domain.models.MoviesPagination
 import com.walcker.movies.features.domain.repository.MoviesRepository
 import com.walcker.movies.mockData.data.creditsResponseTestData
 import com.walcker.movies.mockData.data.movieListResponseTestData
@@ -13,7 +14,7 @@ import kotlinx.collections.immutable.toImmutableList
 internal object FakeMoviesRepository {
 
     fun createSuccessRepository(): MoviesRepository = object : MoviesRepository {
-        override suspend fun getMoviesSections(): Result<List<MovieSection>> =
+        override suspend fun getMoviesSections(pagination: MoviesPagination): Result<List<MovieSection>> =
             Result.success(createDefaultSections())
 
         override suspend fun getMovieDetail(movieId: Int): Result<Movie> =
@@ -23,7 +24,7 @@ internal object FakeMoviesRepository {
     fun createFailureRepository(
         exception: Exception = RuntimeException("Repository error")
     ): MoviesRepository = object : MoviesRepository {
-        override suspend fun getMoviesSections(): Result<List<MovieSection>> =
+        override suspend fun getMoviesSections(pagination: MoviesPagination): Result<List<MovieSection>> =
             Result.failure(exception)
 
         override suspend fun getMovieDetail(movieId: Int): Result<Movie> =

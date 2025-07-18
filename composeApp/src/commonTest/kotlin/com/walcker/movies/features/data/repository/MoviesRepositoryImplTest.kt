@@ -1,6 +1,7 @@
 package com.walcker.movies.features.data.repository
 
 import com.walcker.movies.features.domain.models.MovieSection
+import com.walcker.movies.features.domain.models.MoviesPagination
 import com.walcker.movies.mockFakes.FakeMovieApi.createMockMovieApi
 import com.walcker.movies.mockFakes.FakeMovieApi.createMockMovieApiWithError
 import com.walcker.movies.utils.CoroutineMainDispatcherTestRule
@@ -18,7 +19,7 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
     @Test
     fun `given movie api when getMoviesSections is called then should return all movie sections`() = runTest(dispatcher) {
         // Given // When
-        val result = repository.getMoviesSections()
+        val result = repository.getMoviesSections(pagination = MoviesPagination())
 
         // Then
         assertTrue(result.isSuccess)
@@ -36,7 +37,7 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
     @Test
     fun `given movie api when getMoviesSections is called then should return movies with correct data`() = runTest(dispatcher) {
         // Given & When
-        val result = repository.getMoviesSections()
+        val result = repository.getMoviesSections(pagination = MoviesPagination())
 
         // Then
         assertTrue(result.isSuccess)
@@ -70,7 +71,7 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
     @Test
     fun `given movie api when getMoviesSections is called then should return popular section with correct type`() = runTest(dispatcher) {
         // Given & When
-        val result = repository.getMoviesSections()
+        val result = repository.getMoviesSections(pagination = MoviesPagination())
 
         // Then
         assertTrue(result.isSuccess)
@@ -87,7 +88,7 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
     @Test
     fun `given movie api when getMoviesSections is called then should return top rated section with correct type`() = runTest(dispatcher) {
         // Given & When
-        val result = repository.getMoviesSections()
+        val result = repository.getMoviesSections(pagination = MoviesPagination())
 
         // Then
         assertTrue(result.isSuccess)
@@ -104,7 +105,7 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
     @Test
     fun `given movie api when getMoviesSections is called then should return upcoming section with correct type`() = runTest(dispatcher) {
         // Given & When
-        val result = repository.getMoviesSections()
+        val result = repository.getMoviesSections(pagination = MoviesPagination())
 
         // Then
         assertTrue(result.isSuccess)
@@ -188,7 +189,7 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
         val repositoryWithError = MoviesRepositoryImpl(mockMovieApiWithError, dispatcher)
 
         // When
-        val result = repositoryWithError.getMoviesSections()
+        val result = repositoryWithError.getMoviesSections(pagination = MoviesPagination())
 
         // Then
         assertTrue(result.isFailure)

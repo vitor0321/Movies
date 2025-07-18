@@ -40,7 +40,7 @@ internal class MovieApiImplTest {
         val movieApi = MovieApiImpl(networkClient, platform)
 
         // When
-        val result = movieApi.getMovies(MovieSection.SectionType.POPULAR)
+        val result = movieApi.getMovies(MovieSection.SectionType.POPULAR, 1)
 
         // Then
         assertNotNull(result)
@@ -64,7 +64,7 @@ internal class MovieApiImplTest {
         val movieApi = MovieApiImpl(networkClient, platform)
 
         // When
-        val result = movieApi.getMovies(MovieSection.SectionType.TOP_RATED)
+        val result = movieApi.getMovies(MovieSection.SectionType.TOP_RATED, 1)
 
         // Then
         assertNotNull(result)
@@ -88,7 +88,7 @@ internal class MovieApiImplTest {
         val movieApi = MovieApiImpl(networkClient, platform)
 
         // When
-        val result = movieApi.getMovies(MovieSection.SectionType.UPCOMING)
+        val result = movieApi.getMovies(MovieSection.SectionType.UPCOMING, 1)
 
         // Then
         assertNotNull(result)
@@ -196,7 +196,7 @@ internal class MovieApiImplTest {
         val movieApi = MovieApiImpl(networkClient, platform)
 
         // When
-        val result = movieApi.getMovies(MovieSection.SectionType.POPULAR)
+        val result = movieApi.getMovies(MovieSection.SectionType.POPULAR, 1)
 
         // Then
         assertNotNull(result)
