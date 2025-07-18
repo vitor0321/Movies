@@ -1,6 +1,7 @@
 package com.walcker.movies.features.data.repository
 
 import com.walcker.movies.features.data.mapper.MovieResponseMapper.toDomain
+import com.walcker.movies.features.data.network.HttpConfig
 import com.walcker.movies.features.domain.api.MovieApi
 import com.walcker.movies.features.domain.models.ImageSize
 import com.walcker.movies.features.domain.models.Movie
@@ -69,6 +70,12 @@ internal class MoviesRepositoryImpl(
 
     override suspend fun getTrailerUrl(movieId: Int): Result<String?> = runCatching {
         val response = movieApi.getMovieVideos(movieId)
-        response.results.firstOrNull()?.key?.let { "https://www.youtube.com/watch?v=$it" }
+        val trailers = response.results.filter {
+            it.type == HttpConfig.TRAILER.value && it.site == HttpConfig.YOUTUBE.value
+        }
+
+        val officialTrailer = trailers.firstOrNull { it.official }
+        val selectedTrailer = officialTrailer ?: trailers.firstOrNull()
+        selectedTrailer?.key?.let { HttpConfig.YOUTUBE_BASE_URL.value + it }
     }
 }

@@ -12,7 +12,6 @@ import com.walcker.movies.navigation.AppRoutes
 import com.walcker.movies.strings.ProvideStrings
 import com.walcker.movies.strings.rememberStrings
 import com.walcker.movies.theme.MoviesAppTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 
 @Composable

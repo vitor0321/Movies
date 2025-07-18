@@ -4,6 +4,7 @@ import com.walcker.movies.features.domain.models.MovieSection
 import com.walcker.movies.features.domain.models.MoviesPagination
 import com.walcker.movies.mockFakes.FakeMovieApi.createMockMovieApi
 import com.walcker.movies.mockFakes.FakeMovieApi.createMockMovieApiWithError
+import com.walcker.movies.mockFakes.FakeMoviesRepository
 import com.walcker.movies.utils.CoroutineMainDispatcherTestRule
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -234,5 +235,35 @@ internal class MoviesRepositoryImplTest : CoroutineMainDispatcherTestRule() {
         assertEquals(2, movie2.id)
         assertEquals("Test Movie", movie1.title)
         assertEquals("Movie 2", movie2.title)
+    }
+
+    @Test
+    fun `given movie id when getTrailerUrl is called then should return trailer url successfully`() = runTest(dispatcher) {
+        // Given
+        val repository = FakeMoviesRepository.createSuccessRepository()
+        val movieId = 123
+
+        // When
+        val result = repository.getTrailerUrl(movieId)
+
+        // Then
+        assertTrue(result.isSuccess)
+        val trailerUrl = result.getOrNull()
+        assertNotNull(trailerUrl)
+        assertEquals("https://www.youtube.com/watch?v=1234567890", trailerUrl)
+    }
+
+    @Test
+    fun `given repository failure when getTrailerUrl is called then should return failure`() = runTest(dispatcher) {
+        // Given
+        val repository = FakeMoviesRepository.createFailureRepository()
+        val movieId = 321
+
+        // When
+        val result = repository.getTrailerUrl(movieId)
+
+        // Then
+        assertTrue(result.isFailure)
+        assertNotNull(result.exceptionOrNull())
     }
 }
