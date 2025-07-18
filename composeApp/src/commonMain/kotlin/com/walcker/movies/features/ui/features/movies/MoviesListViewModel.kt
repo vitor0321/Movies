@@ -6,7 +6,6 @@ import com.walcker.movies.features.domain.models.MovieSection
 import com.walcker.movies.features.domain.models.MoviesPagination
 import com.walcker.movies.features.domain.repository.MoviesRepository
 import com.walcker.movies.handle.handleMessageError
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,6 +24,12 @@ internal class MoviesListViewModel internal constructor(
 
     init {
         getMovieSections()
+    }
+
+    internal fun onEvent(onEvent: MoviesListInternalRoute) {
+        when (onEvent) {
+            is MoviesListInternalRoute.OnLoadNextPage -> loadNextPage(sectionType = onEvent.sectionType)
+        }
     }
 
     private fun getMovieSections() {
@@ -48,7 +53,7 @@ internal class MoviesListViewModel internal constructor(
         }
     }
 
-    internal fun loadNextPage(sectionType: MovieSection.SectionType) {
+    private fun loadNextPage(sectionType: MovieSection.SectionType) {
         currentPagination = currentPagination.increment(sectionType)
         getMovieSections()
     }
@@ -62,11 +67,5 @@ internal class MoviesListViewModel internal constructor(
                 else section.movies
             )
         }
-    }
-
-    internal sealed interface MoviesListUiState {
-        data object Loading : MoviesListUiState
-        data class Success(val movies: ImmutableList<MovieSection>) : MoviesListUiState
-        data class Error(val message: String) : MoviesListUiState
     }
 }

@@ -1,6 +1,5 @@
 package com.walcker.movies.features.data.repository
 
-import com.walcker.movies.handle.withRetry
 import com.walcker.movies.features.data.mapper.MovieResponseMapper.toDomain
 import com.walcker.movies.features.domain.api.MovieApi
 import com.walcker.movies.features.domain.models.ImageSize
@@ -8,6 +7,7 @@ import com.walcker.movies.features.domain.models.Movie
 import com.walcker.movies.features.domain.models.MovieSection
 import com.walcker.movies.features.domain.models.MoviesPagination
 import com.walcker.movies.features.domain.repository.MoviesRepository
+import com.walcker.movies.handle.withRetry
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
@@ -66,4 +66,9 @@ internal class MoviesRepositoryImpl(
                 }
             }
         }
+
+    override suspend fun getTrailerUrl(movieId: Int): Result<String?> = runCatching {
+        val response = movieApi.getMovieVideos(movieId)
+        response.results.firstOrNull()?.key?.let { "https://www.youtube.com/watch?v=$it" }
+    }
 }

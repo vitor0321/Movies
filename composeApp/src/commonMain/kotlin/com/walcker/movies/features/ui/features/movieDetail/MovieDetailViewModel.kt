@@ -2,7 +2,6 @@ package com.walcker.movies.features.ui.features.movieDetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.walcker.movies.features.domain.models.Movie
 import com.walcker.movies.features.domain.repository.MoviesRepository
 import com.walcker.movies.handle.handleMessageError
 import kotlinx.coroutines.CoroutineDispatcher
@@ -20,8 +19,18 @@ internal class MovieDetailViewModel internal constructor(
     private val _uiState = MutableStateFlow<MovieDetailUiState>(MovieDetailUiState.Loading)
     internal val uiState = _uiState.asStateFlow()
 
+    private val _trailerUrl = MutableStateFlow<String?>(null)
+    internal val trailerUrl = _trailerUrl.asStateFlow()
+
     init {
         getMovieDetail()
+    }
+
+    internal fun onEvent(onEvent: MovieDetailInternalRoute) {
+        when (onEvent) {
+            is MovieDetailInternalRoute.OnFetchTrailerUrl -> fetchTrailerUrl()
+            is MovieDetailInternalRoute.OnResetTrailerUrl -> resetTrailerUrl()
+        }
     }
 
     private fun getMovieDetail() {
@@ -36,9 +45,14 @@ internal class MovieDetailViewModel internal constructor(
         }
     }
 
-    internal sealed interface MovieDetailUiState {
-        data object Loading : MovieDetailUiState
-        data class Success(val movie: Movie) : MovieDetailUiState
-        data class Error(val message: String) : MovieDetailUiState
+    private fun fetchTrailerUrl() {
+        viewModelScope.launch(context = dispatcher) {
+            val result = moviesRepository.getTrailerUrl(movieId)
+            _trailerUrl.value = result.getOrNull()
+        }
+    }
+
+    private fun resetTrailerUrl() {
+        _trailerUrl.value = null
     }
 }

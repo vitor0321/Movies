@@ -4,6 +4,7 @@ import com.walcker.movies.Platform
 import com.walcker.movies.features.data.models.CreditsResponse
 import com.walcker.movies.features.data.models.MovieListResponse
 import com.walcker.movies.features.data.models.MovieResponse
+import com.walcker.movies.features.data.models.VideoResponse
 import com.walcker.movies.features.data.network.HttpConfig
 import com.walcker.movies.features.domain.api.MovieApi
 import com.walcker.movies.features.domain.models.MovieSection
@@ -34,6 +35,11 @@ internal class MovieApiImpl(
 
     override suspend fun getCredits(movieId: Int): CreditsResponse =
         networkClient.httpClient().get("/3/movie/${movieId}/credits") {
+            addLanguageParam()
+        }.body()
+
+    override suspend fun getMovieVideos(movieId: Int): VideoResponse =
+        networkClient.httpClient().get("/3/movie/$movieId/videos") {
             addLanguageParam()
         }.body()
 

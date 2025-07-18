@@ -16,7 +16,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 
 @Composable
-@Preview
 public fun App(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
 ) {
@@ -44,6 +43,9 @@ public fun App(
                         MovieDetailRoute(
                             onNavigationBack = {
                                 navController.popBackStack()
+                            },
+                            onOpenTrailer = {
+                                platform.trailerOpener.openTrailer(it)
                             }
                         )
                     }
