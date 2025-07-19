@@ -5,14 +5,18 @@ import com.walcker.movies.utils.movieSnapshot
 import org.junit.Rule
 import kotlin.test.Test
 
-internal class MovieBadgeTest {
+internal class MovieCastMemberItemTest {
     @get:Rule
     val paparazzi = DefaultPaparazzi
 
     @Test
     fun snapshot() {
         paparazzi.movieSnapshot {
-            MovieBadge(text = "Action")
+            MovieCastMemberItem(
+                imageUrl = "https://example.com/profile.jpg",
+                name = "John Doe",
+                character = "Main Character"
+            )
         }
     }
 }

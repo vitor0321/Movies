@@ -5,7 +5,7 @@ import com.walcker.movies.utils.movieSnapshot
 import org.junit.Rule
 import kotlin.test.Test
 
-internal class MovieBadgeTest {
+internal class MovieInfoItemTest {
     @get:Rule
     val paparazzi = DefaultPaparazzi
 

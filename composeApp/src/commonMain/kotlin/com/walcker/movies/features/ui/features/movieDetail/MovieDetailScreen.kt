@@ -12,8 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.walcker.movies.features.ui.components.MovieTopAppBar
-import com.walcker.movies.features.ui.components.MoviesErrorContent
-import com.walcker.movies.features.ui.components.MoviesLoadingContent
+import com.walcker.movies.features.ui.components.MovieErrorContent
+import com.walcker.movies.features.ui.components.MovieLoadingContent
 import com.walcker.movies.features.ui.features.movieDetail.components.MovieDetailSuccessContent
 import com.walcker.movies.features.ui.preview.mockData.movieTestData
 import com.walcker.movies.strings.LocalStrings
@@ -91,7 +91,7 @@ private fun UiStateCheck(
 ) {
     when (uiState) {
         is MovieDetailUiState.Loading ->
-            MoviesLoadingContent()
+            MovieLoadingContent()
 
         is MovieDetailUiState.Success ->
             MovieDetailSuccessContent(
@@ -101,7 +101,7 @@ private fun UiStateCheck(
             )
 
         is MovieDetailUiState.Error ->
-            MoviesErrorContent(message = uiState.message)
+            MovieErrorContent(message = uiState.message)
     }
 }
 

@@ -11,7 +11,7 @@ import com.walcker.movies.theme.MoviesAppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun MoviesLoadingContent(
+internal fun MovieLoadingContent(
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -26,6 +26,6 @@ internal fun MoviesLoadingContent(
 @Composable
 private fun Preview() {
     MoviesAppTheme {
-        MoviesLoadingContent()
+        MovieLoadingContent()
     }
 }

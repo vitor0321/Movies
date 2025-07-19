@@ -5,14 +5,16 @@ import com.walcker.movies.utils.movieSnapshot
 import org.junit.Rule
 import kotlin.test.Test
 
-internal class MovieBadgeTest {
+internal class MovieErrorContentTest {
     @get:Rule
     val paparazzi = DefaultPaparazzi
 
     @Test
     fun snapshot() {
         paparazzi.movieSnapshot {
-            MovieBadge(text = "Action")
+            MovieErrorContent(
+                message = "An error occurred while loading movies."
+            )
         }
     }
 }

@@ -1,18 +1,20 @@
-package com.walcker.movies.features.ui.components
+package com.walcker.movies.features.ui.features.movieDetail.components
 
 import com.walcker.movies.utils.DefaultPaparazzi
 import com.walcker.movies.utils.movieSnapshot
 import org.junit.Rule
 import kotlin.test.Test
 
-internal class MovieBadgeTest {
+internal class HeaderDetailTest {
     @get:Rule
     val paparazzi = DefaultPaparazzi
 
     @Test
     fun snapshot() {
         paparazzi.movieSnapshot {
-            MovieBadge(text = "Action")
+            HeaderDetail(
+                posterUrl = "https://image.tmdb.org/t/p/w500/1LRLLWGvs5sZdTzuMqLEahb88Pc.jpg"
+            )
         }
     }
 }

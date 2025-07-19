@@ -5,14 +5,14 @@ import com.walcker.movies.utils.movieSnapshot
 import org.junit.Rule
 import kotlin.test.Test
 
-internal class MovieBadgeTest {
+internal class MovieLoadingContentTest {
     @get:Rule
     val paparazzi = DefaultPaparazzi
 
     @Test
     fun snapshot() {
         paparazzi.movieSnapshot {
-            MovieBadge(text = "Action")
+            MovieLoadingContent()
         }
     }
 }

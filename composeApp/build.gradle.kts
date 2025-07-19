@@ -53,6 +53,7 @@ kotlin {
         }
         androidUnitTest.dependencies {
             implementation(libs.paparazzi)
+            implementation(libs.parameter.injector)
         }
         commonMain.dependencies {
             implementation(compose.components.resources)

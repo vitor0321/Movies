@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.walcker.movies.features.domain.models.MovieSection
 import com.walcker.movies.features.ui.components.MovieTopAppBar
-import com.walcker.movies.features.ui.components.MoviesErrorContent
+import com.walcker.movies.features.ui.components.MovieErrorContent
 import com.walcker.movies.features.ui.features.movies.components.MovieSplashScreen
 import com.walcker.movies.features.ui.features.movies.components.MoviesListSuccessContent
 import com.walcker.movies.features.ui.preview.movies.MoviesListUiStateProvider
@@ -41,7 +41,7 @@ internal fun MoviesListRoute(
 }
 
 @Composable
-private fun MoviesListScreen(
+internal fun MoviesListScreen(
     uiState: MoviesListUiState,
     strings: MoviesListStrings,
     onPosterClick: (movieId: Int) -> Unit,
@@ -85,7 +85,7 @@ private fun UiStateCheck(
             )
 
         is MoviesListUiState.Error ->
-            MoviesErrorContent(message = uiState.message)
+            MovieErrorContent(message = uiState.message)
     }
 }
 

@@ -1,18 +1,18 @@
-package com.walcker.movies.features.ui.components
+package com.walcker.movies.features.ui.features.movies.components
 
 import com.walcker.movies.utils.DefaultPaparazzi
 import com.walcker.movies.utils.movieSnapshot
 import org.junit.Rule
 import kotlin.test.Test
 
-internal class MovieBadgeTest {
+internal class MovieSplashScreenTest {
     @get:Rule
     val paparazzi = DefaultPaparazzi
 
     @Test
     fun snapshot() {
         paparazzi.movieSnapshot {
-            MovieBadge(text = "Action")
+            MovieSplashScreen()
         }
     }
 }
