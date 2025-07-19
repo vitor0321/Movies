@@ -20,7 +20,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun MoviesErrorContent(
+internal fun MovieErrorContent(
     modifier: Modifier = Modifier,
     message: String,
 ) {
@@ -47,7 +47,7 @@ internal fun MoviesErrorContent(
 @Composable
 private fun Preview() {
     MoviesAppTheme {
-        MoviesErrorContent(
+        MovieErrorContent(
             message = "An error occurred"
         )
     }

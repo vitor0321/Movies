@@ -1,6 +1,9 @@
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.implementation
+import org.gradle.kotlin.dsl.kotlin
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 import java.util.Properties
 
 plugins {
@@ -10,6 +13,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinKsp)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.paparazzi)
     kotlin("plugin.serialization") version "2.2.0"
 }
 
@@ -19,6 +23,8 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
     }
     detekt {
         toolVersion = libs.versions.detekt.get()
@@ -44,6 +50,10 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.okhttp)
+        }
+        androidUnitTest.dependencies {
+            implementation(libs.paparazzi)
+            implementation(libs.parameter.injector)
         }
         commonMain.dependencies {
             implementation(compose.components.resources)

@@ -6,6 +6,10 @@ import kotlinx.collections.immutable.toImmutableList
 
 internal val movieSectionTestData = persistentListOf(
     MovieSection(
+        sectionType = MovieSection.SectionType.HIGHLIGHT,
+        movies = List(5) { movieTestData }.toImmutableList()
+    ),
+    MovieSection(
         sectionType = MovieSection.SectionType.POPULAR,
         movies = List(10) { movieTestData }.toImmutableList()
     ),

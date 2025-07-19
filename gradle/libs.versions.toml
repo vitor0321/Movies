@@ -16,6 +16,8 @@ desugar_jdk_libs = "2.1.5"
 detekt = "1.23.8"
 immutable = "0.4.0"
 junit = "4.13.2"
+paparazzi = "2.0.0-alpha02"
+parameter-injector = "1.18"
 koin_version = "4.1.0"
 kotlin = "2.2.0"
 ksp = "2.1.10-1.0.31"
@@ -38,6 +40,8 @@ collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-im
 composeIcons-fontAwesome = { module = "br.com.devsrsouza.compose.icons:font-awesome", version.ref = "composeIcons" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 junit = { module = "junit:junit", version.ref = "junit" }
+paparazzi = { module = "app.cash.paparazzi:paparazzi", version.ref = "paparazzi" }
+parameter-injector = { module = "com.google.testparameterinjector:test-parameter-injector", version.ref = "parameter-injector" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin_version" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin_version" }
 koin-compose-viewmodel-navigation = { module = "io.insert-koin:koin-compose-viewmodel-navigation", version.ref = "koin_version" }
@@ -66,5 +70,6 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
 kotlinKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
