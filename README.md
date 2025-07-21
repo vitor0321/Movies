@@ -170,11 +170,15 @@ This project aims to:
 * Validate and explore modern Kotlin ecosystem libraries
 
 ### 🔮 Next Steps
-* Local database support (e.g., SQLite, Realm, SQLDelight)
+* Local database support ( SQLDelight)
 
-* Compose multiplatform UI testing
+* Logging: User's favorite movie
 
 * Favorites feature with persistence layer
+
+* Make a designer system
+  
+* Test A/B with firebase or analytics 
 
 ## 🤝 Contribuindo
 
