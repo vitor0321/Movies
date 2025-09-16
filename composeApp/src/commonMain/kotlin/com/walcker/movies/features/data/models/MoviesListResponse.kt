@@ -11,6 +11,7 @@ internal data class MovieListResponse(
 
 @Serializable
 internal data class MovieResponse(
+    val adult: Boolean,
     val id: Int,
     val title: String,
     val overview: String,

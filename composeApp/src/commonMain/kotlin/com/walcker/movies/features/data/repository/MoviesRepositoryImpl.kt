@@ -26,17 +26,15 @@ internal class MoviesRepositoryImpl(
     override suspend fun getMoviesSections(pagination: MoviesPagination): Result<List<MovieSection>> =
         withContext(dispatcher) {
             runCatching {
-                coroutineScope {
-                    val movieCategoriesWithPages = MovieSection.SectionType.entries.map { sectionType ->
-                        sectionType to pagination.pageFor(sectionType)
-                    }
-
-                    val moviesDeferred = movieCategoriesWithPages.map { (sectionType, page) ->
-                        async { fetchMoviesByCategory(sectionType, page) }
-                    }
-
-                    moviesDeferred.awaitAll()
+                val movieCategoriesWithPages = MovieSection.SectionType.entries.map { sectionType ->
+                    sectionType to pagination.pageFor(sectionType)
                 }
+
+                val moviesDeferred = movieCategoriesWithPages.map { (sectionType, page) ->
+                    async { fetchMoviesByCategory(sectionType, page) }
+                }
+
+                moviesDeferred.awaitAll()
             }
         }
 

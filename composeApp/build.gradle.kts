@@ -83,7 +83,7 @@ kotlin {
             implementation(libs.ktor.serialization.json)
             implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.lyricist)
-            implementation("com.valentinilk.shimmer:compose-shimmer:1.3.3")
+            implementation(libs.compose.shimmer)
         }
         commonTest.dependencies {
             implementation(libs.androidx.testExt.junit)
