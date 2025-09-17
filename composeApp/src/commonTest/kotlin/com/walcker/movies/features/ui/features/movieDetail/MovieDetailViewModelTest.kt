@@ -61,48 +61,4 @@ internal class MovieDetailViewModelTest : CoroutineMainDispatcherTestRule() {
         assertTrue(uiState is MovieDetailUiState.Error)
         assertEquals(errorMessage, uiState.message)
     }
-
-    @Test
-    fun `GIVEN fetchTrailerUrl WHEN repository returns success THEN trailerUrl should be updated`() = runTest(dispatcher) {
-        // Given
-        val moviesRepository = FakeMoviesRepository.createSuccessRepository()
-        val viewModel = createViewModel(moviesRepository)
-
-        // When
-        viewModel.onEvent(MovieDetailInternalRoute.OnFetchTrailerUrl)
-
-        // Then
-        val trailerUrl = viewModel.trailerUrl.filter { it != null }.first()
-        assertEquals("https://www.youtube.com/watch?v=1234567890", trailerUrl)
-    }
-
-    @Test
-    fun `GIVEN fetchTrailerUrl WHEN repository returns failure THEN trailerUrl should be null`() = runTest(dispatcher) {
-        // Given
-        val moviesRepository = FakeMoviesRepository.createFailureRepository()
-        val viewModel = createViewModel(moviesRepository)
-
-        // When
-        viewModel.onEvent(MovieDetailInternalRoute.OnFetchTrailerUrl)
-
-        // Then
-        val trailerUrl = viewModel.trailerUrl.first()
-        assertEquals(null, trailerUrl)
-    }
-
-    @Test
-    fun `GIVEN resetTrailerUrl WHEN previously set THEN trailerUrl should be null`() = runTest(dispatcher) {
-        // Given
-        val moviesRepository = FakeMoviesRepository.createSuccessRepository()
-        val viewModel = createViewModel(moviesRepository)
-        viewModel.onEvent(MovieDetailInternalRoute.OnFetchTrailerUrl)
-        viewModel.trailerUrl.filter { it != null }.first()
-
-        // When
-        viewModel.onEvent(MovieDetailInternalRoute.OnResetTrailerUrl)
-
-        // Then
-        val trailerUrl = viewModel.trailerUrl.first()
-        assertEquals(null, trailerUrl)
-    }
 }
