@@ -12,4 +12,5 @@ internal data class Movie(
     val duration: String?,
     val rating: String,
     val castMembers: ImmutableList<CastMember>?,
+    val moviesTrailerYouTubeKey: String?
 )

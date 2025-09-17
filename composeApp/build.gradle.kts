@@ -69,6 +69,8 @@ kotlin {
             implementation(libs.coil.network.ktor3)
             implementation(libs.collections.immutable)
             implementation(libs.composeIcons.fontAwesome)
+            implementation(libs.compose.shimmer)
+            implementation(libs.mediaplayer.kmp)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.compose.viewmodel.navigation)
@@ -83,7 +85,6 @@ kotlin {
             implementation(libs.ktor.serialization.json)
             implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.lyricist)
-            implementation(libs.compose.shimmer)
         }
         commonTest.dependencies {
             implementation(libs.androidx.testExt.junit)

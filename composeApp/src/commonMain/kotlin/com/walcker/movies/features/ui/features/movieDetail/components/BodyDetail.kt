@@ -41,7 +41,7 @@ internal fun BodyDetail(
     modifier: Modifier = Modifier,
     movie: Movie,
     string: MovieDetailString,
-    onWatchClick: () -> Unit,
+    onWatchClick: (String) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -88,23 +88,25 @@ internal fun BodyDetail(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        ElevatedButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            onClick = { onWatchClick() },
-        ) {
-            Icon(
-                imageVector = FontAwesomeIcons.Solid.Play,
-                modifier = Modifier.size(12.dp),
-                contentDescription = null,
-            )
-            Text(
-                text = string.buttonText,
-                modifier = Modifier.padding(start = 16.dp),
-                fontWeight = FontWeight.Medium,
-                style = MaterialTheme.typography.bodyMedium,
-            )
+        movie.moviesTrailerYouTubeKey?.let {
+            ElevatedButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                onClick = { onWatchClick(it) },
+            ) {
+                Icon(
+                    imageVector = FontAwesomeIcons.Solid.Play,
+                    modifier = Modifier.size(12.dp),
+                    contentDescription = null,
+                )
+                Text(
+                    text = string.buttonText,
+                    modifier = Modifier.padding(start = 16.dp),
+                    fontWeight = FontWeight.Medium,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
         }
     }
 }

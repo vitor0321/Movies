@@ -42,9 +42,6 @@ public fun App(
                         MovieDetailRoute(
                             onNavigationBack = {
                                 navController.popBackStack()
-                            },
-                            onOpenTrailer = {
-                                platform.trailerOpener.openTrailer(it)
                             }
                         )
                     }

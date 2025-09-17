@@ -17,18 +17,8 @@ internal class MovieDetailViewModel internal constructor(
     private val _uiState = MutableStateFlow<MovieDetailUiState>(MovieDetailUiState.Loading)
     internal val uiState = _uiState.asStateFlow()
 
-    private val _trailerUrl = MutableStateFlow<String?>(null)
-    internal val trailerUrl = _trailerUrl.asStateFlow()
-
     init {
         getMovieDetail()
-    }
-
-    internal fun onEvent(onEvent: MovieDetailInternalRoute) {
-        when (onEvent) {
-            is MovieDetailInternalRoute.OnFetchTrailerUrl -> fetchTrailerUrl()
-            is MovieDetailInternalRoute.OnResetTrailerUrl -> resetTrailerUrl()
-        }
     }
 
     private fun getMovieDetail() {
@@ -41,16 +31,5 @@ internal class MovieDetailViewModel internal constructor(
                     _uiState.update { MovieDetailUiState.Error(handleMessageError(exception = error)) }
                 }
         }
-    }
-
-    private fun fetchTrailerUrl() {
-        viewModelScope.launch {
-            val result = moviesRepository.getTrailerUrl(movieId)
-            _trailerUrl.value = result.getOrNull()
-        }
-    }
-
-    private fun resetTrailerUrl() {
-        _trailerUrl.value = null
     }
 }

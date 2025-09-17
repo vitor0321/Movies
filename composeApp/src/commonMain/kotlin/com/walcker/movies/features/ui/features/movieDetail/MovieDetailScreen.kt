@@ -5,15 +5,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.walcker.movies.features.ui.components.MovieTopAppBar
 import com.walcker.movies.features.ui.components.MovieErrorContent
 import com.walcker.movies.features.ui.components.MovieLoadingContent
+import com.walcker.movies.features.ui.components.MovieTopAppBar
+import com.walcker.movies.features.ui.features.movieDetail.components.ModalBottomSheetDetail
 import com.walcker.movies.features.ui.features.movieDetail.components.MovieDetailSuccessContent
 import com.walcker.movies.features.ui.preview.mockData.movieTestData
 import com.walcker.movies.strings.LocalStrings
@@ -30,25 +32,14 @@ import org.koin.compose.viewmodel.koinViewModel
 internal fun MovieDetailRoute(
     viewModel: MovieDetailViewModel = koinViewModel(),
     onNavigationBack: () -> Unit,
-    onOpenTrailer: (String) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val trailerUrl by viewModel.trailerUrl.collectAsStateWithLifecycle()
     val strings = LocalStrings.current
-    val onEvent: (MovieDetailInternalRoute) -> Unit = remember { { viewModel.onEvent(it) } }
-
-    LaunchedEffect(key1 = trailerUrl) {
-        trailerUrl?.let { url ->
-            onOpenTrailer(url)
-            onEvent(MovieDetailInternalRoute.OnResetTrailerUrl)
-        }
-    }
 
     MovieDetailScreen(
         uiState = uiState,
         string = strings.movieDetailStrings,
         onNavigationBack = onNavigationBack,
-        onEvent = { onEvent(it) },
     )
 }
 
@@ -57,7 +48,6 @@ internal fun MovieDetailScreen(
     uiState: MovieDetailUiState,
     string: MovieDetailString,
     onNavigationBack: () -> Unit,
-    onEvent: (MovieDetailInternalRoute) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -68,6 +58,15 @@ internal fun MovieDetailScreen(
             )
         }
     ) { paddingValues ->
+        var youtubeVideoKey by remember { mutableStateOf<String?>(null) }
+        var showModal by remember { mutableStateOf(false) }
+        if (showModal && youtubeVideoKey != null) {
+            ModalBottomSheetDetail(
+                url = youtubeVideoKey.orEmpty(),
+                onDismissRequest = { showModal = false }
+            )
+        }
+
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -77,7 +76,10 @@ internal fun MovieDetailScreen(
             UiStateCheck(
                 uiState = uiState,
                 string = string,
-                onWatchClick = { onEvent(MovieDetailInternalRoute.OnFetchTrailerUrl) }
+                onWatchClick = {
+                    youtubeVideoKey = it
+                    showModal = !showModal
+                }
             )
         }
     }
@@ -87,7 +89,7 @@ internal fun MovieDetailScreen(
 private fun UiStateCheck(
     uiState: MovieDetailUiState,
     string: MovieDetailString,
-    onWatchClick: () -> Unit
+    onWatchClick: (String) -> Unit,
 ) {
     when (uiState) {
         is MovieDetailUiState.Loading ->
@@ -97,7 +99,7 @@ private fun UiStateCheck(
             MovieDetailSuccessContent(
                 movie = uiState.movie,
                 string = string,
-                onWatchClick = { onWatchClick() },
+                onWatchClick = { onWatchClick(it) },
             )
 
         is MovieDetailUiState.Error ->
@@ -113,7 +115,6 @@ private fun LightPreview() {
             uiState = MovieDetailUiState.Success(movieTestData),
             string = movieDetailStringsPt,
             onNavigationBack = {},
-            onEvent = {},
         )
     }
 }
@@ -123,10 +124,9 @@ private fun LightPreview() {
 private fun DarkPreview() {
     MoviesAppTheme {
         MovieDetailScreen(
-            uiState = MovieDetailUiState.Success(movieTestData),
+            uiState = MovieDetailUiState.Success(movieTestData.copy(moviesTrailerYouTubeKey = null)),
             string = movieDetailStringsPt,
             onNavigationBack = {},
-            onEvent = {},
         )
     }
 }

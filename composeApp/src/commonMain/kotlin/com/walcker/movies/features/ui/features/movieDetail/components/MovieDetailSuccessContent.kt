@@ -24,7 +24,7 @@ internal fun MovieDetailSuccessContent(
     modifier: Modifier = Modifier,
     movie: Movie,
     string: MovieDetailString,
-    onWatchClick: () -> Unit,
+    onWatchClick: (String) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -44,7 +44,7 @@ internal fun MovieDetailSuccessContent(
             BodyDetail(
                 movie = movie,
                 string = string,
-                onWatchClick = { onWatchClick() },
+                onWatchClick = { onWatchClick(it) },
             )
             Spacer(modifier = Modifier.height(16.dp))
             BottomDetail(movie = movie)

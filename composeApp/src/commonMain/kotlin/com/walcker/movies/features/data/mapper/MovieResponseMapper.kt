@@ -16,6 +16,7 @@ internal const val MAX_CAST_MEMBERS = 20
 internal object MovieResponseMapper {
     fun MovieResponse.toDomain(
         castMembersResponse: List<CastMemberResponse>? = null,
+        moviesTrailerYouTubeKey: String? = null,
         imageSize: ImageSize = ImageSize.SMALL,
     ): Movie =
         Movie(
@@ -31,6 +32,7 @@ internal object MovieResponseMapper {
                 ?.filter { it.department == DEPARTMENT }
                 ?.take(n = MAX_CAST_MEMBERS)
                 ?.map { it.toDomain() }?.toImmutableList(),
+            moviesTrailerYouTubeKey = moviesTrailerYouTubeKey,
         )
 
     private fun MovieResponse.getDurationInHoursAndMinutes(): String? =

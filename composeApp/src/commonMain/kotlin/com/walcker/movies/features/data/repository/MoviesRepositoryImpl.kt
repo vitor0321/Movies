@@ -72,26 +72,22 @@ internal class MoviesRepositoryImpl(
                 coroutineScope {
                     val movieDetailDeferred = async { movieApi.getMovieDetail(movieId = movieId) }
                     val creditsDeferred = async { movieApi.getCredits(movieId = movieId) }
+                    val videosDeferred = async { movieApi.getMovieVideos(movieId = movieId) }
 
                     val movieDetailResponse = movieDetailDeferred.await()
                     val creditsResponse = creditsDeferred.await()
+                    val videosResponse = videosDeferred.await()
+
+                    val movieTrailerYoutubeKey = videosResponse.results.firstOrNull() { videoItemResponse ->
+                        videoItemResponse.site == HttpConfig.YOUTUBE.value
+                    }?.key?.let { HttpConfig.YOUTUBE_BASE_URL.value + it }
 
                     movieDetailResponse.toDomain(
                         castMembersResponse = creditsResponse.cast,
+                        moviesTrailerYouTubeKey = movieTrailerYoutubeKey,
                         imageSize = ImageSize.X_LARGE,
                     )
                 }
             }
         }
-
-    override suspend fun getTrailerUrl(movieId: Int): Result<String?> = runCatching {
-        val response = movieApi.getMovieVideos(movieId)
-        val trailers = response.results.filter {
-            it.type == HttpConfig.TRAILER.value && it.site == HttpConfig.YOUTUBE.value
-        }
-
-        val officialTrailer = trailers.firstOrNull { it.official }
-        val selectedTrailer = officialTrailer ?: trailers.firstOrNull()
-        selectedTrailer?.key?.let { HttpConfig.YOUTUBE_BASE_URL.value + it }
-    }
 }
