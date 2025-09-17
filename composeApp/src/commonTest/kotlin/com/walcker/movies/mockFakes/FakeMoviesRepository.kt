@@ -29,9 +29,6 @@ internal object FakeMoviesRepository {
 
         override suspend fun getMovieDetail(movieId: Int): Result<Movie> =
             Result.success(createMovieDetail(movieId))
-
-        override suspend fun getTrailerUrl(movieId: Int): Result<String?> =
-            Result.success("https://www.youtube.com/watch?v=1234567890")
     }
 
     fun createFailureRepository(
@@ -46,9 +43,6 @@ internal object FakeMoviesRepository {
         ): Result<MovieSection> = Result.failure(exception)
 
         override suspend fun getMovieDetail(movieId: Int): Result<Movie> =
-            Result.failure(exception)
-
-        override suspend fun getTrailerUrl(movieId: Int): Result<String?> =
             Result.failure(exception)
     }
 

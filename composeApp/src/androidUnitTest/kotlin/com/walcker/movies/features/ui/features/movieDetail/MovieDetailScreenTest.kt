@@ -18,7 +18,6 @@ internal class MovieDetailScreenTest {
                 uiState = MovieDetailUiState.Success(movieTestData),
                 string = movieDetailStringsPt,
                 onNavigationBack = {},
-                onEvent = {},
             )
         }
     }
