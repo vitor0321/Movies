@@ -1,4 +1,4 @@
-rootProject.name = "Movies"
+rootProject.name = "Flickly"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

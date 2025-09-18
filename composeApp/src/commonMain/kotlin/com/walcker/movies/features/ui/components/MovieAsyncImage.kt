@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.walcker.movies.features.ui.preview.mockData.movieTestData
 import com.walcker.movies.theme.MoviesAppTheme
-import movies.composeapp.generated.resources.Res
-import movies.composeapp.generated.resources.error_image
+import flickly.composeapp.generated.resources.Res
+import flickly.composeapp.generated.resources.error_image
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 

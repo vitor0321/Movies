@@ -28,7 +28,7 @@ internal val EnStrings = MoviesStrings(
 
 @LyricistStrings(languageTag = Locales.PT)
 internal val PtStrings = MoviesStrings(
-    appName = "Filmes",
+    appName = "Flickly",
     moviesListStrings = moviesListStringsPt,
     movieDetailStrings = movieDetailStringsPt,
 )

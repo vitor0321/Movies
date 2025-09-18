@@ -9,7 +9,7 @@ internal data class MoviesListStrings(
 )
 
 internal val moviesListStringsPt = MoviesListStrings(
-    appName = "Filmes",
+    appName = "Flickly",
     highlight = "Destaque",
     popularMovies = "Populares",
     topRatedMovies = "Mais Bem Avaliados",
@@ -17,7 +17,7 @@ internal val moviesListStringsPt = MoviesListStrings(
 )
 
 internal val moviesListStringsEn = MoviesListStrings(
-    appName = "Movies",
+    appName = "Flickly",
     highlight = "Highlight",
     popularMovies = "Popular",
     topRatedMovies = "Top Rated",

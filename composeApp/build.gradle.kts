@@ -38,7 +38,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "Movie"
+            baseName = "Flickly"
             isStatic = true
         }
     }

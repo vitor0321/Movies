@@ -6,10 +6,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import movies.composeapp.generated.resources.Res
-import movies.composeapp.generated.resources.urbanist_bold
-import movies.composeapp.generated.resources.urbanist_medium
-import movies.composeapp.generated.resources.urbanist_regular
+import flickly.composeapp.generated.resources.Res
+import flickly.composeapp.generated.resources.urbanist_bold
+import flickly.composeapp.generated.resources.urbanist_medium
+import flickly.composeapp.generated.resources.urbanist_regular
 import org.jetbrains.compose.resources.Font
 
 private val urbanist: FontFamily

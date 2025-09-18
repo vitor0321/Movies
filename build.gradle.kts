@@ -11,6 +11,14 @@ plugins {
     alias(libs.plugins.paparazzi) apply false
 }
 
+repositories {
+    google()
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
+    maven(url = "https://oss.sonatype.org/content/repositories/snapshots")
+}
+
 configurations.all {
     resolutionStrategy {
         force("io.ktor:ktor-client-core:3.0.0")
