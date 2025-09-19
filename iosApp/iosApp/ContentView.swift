@@ -1,6 +1,6 @@
 import UIKit
 import SwiftUI
-import Movie
+import Flickly
 
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
