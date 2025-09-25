@@ -19,3 +19,5 @@ captures
 
 # iOS Secrets
 iosApp/Configuration/Secrets.xcconfig
+/key/key_build.jks
+/composeApp/release/

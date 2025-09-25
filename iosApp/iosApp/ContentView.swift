@@ -1,6 +1,6 @@
+import AppMan
 import UIKit
 import SwiftUI
-import Movie
 
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -15,7 +15,7 @@ struct ComposeView: UIViewControllerRepresentable {
     var isDarkTheme: Bool
 
     func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.mainViewController(isDarkTheme: isDarkTheme)
+        MainViewControllerKt.mainViewController(isDarkTheme: isDarkTheme) as! UIViewController
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {

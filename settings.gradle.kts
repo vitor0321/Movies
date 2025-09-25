@@ -1,4 +1,4 @@
-rootProject.name = "Movies"
+rootProject.name = "Flickly"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -28,4 +28,8 @@ dependencyResolutionManagement {
     }
 }
 
-include(":composeApp")
+include(":app")
+include(":core")
+include(":features")
+include(":features:batSignal")
+include(":features:movies")
