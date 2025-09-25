@@ -1,35 +1,22 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidKotlinMultiplatformLibrary)
-    alias(libs.plugins.androidLint)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    kotlin("plugin.serialization") version "2.2.0"
+    alias(libs.plugins.kotlinKsp)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.paparazzi)
+    kotlin("plugin.serialization") version libs.versions.kotlin.get()
 }
 
 kotlin {
-    androidLibrary {
-        namespace = "com.walcker.movies.core"
-        compileSdk = 36
-        minSdk = 24
+    androidTarget()
 
-        withHostTestBuilder {
-        }
-
-        withDeviceTestBuilder {
-            sourceSetTreeName = "test"
-        }.configure {
-            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        }
-    }
-
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
+    listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "core"
+            baseName = "Core"
             isStatic = true
         }
     }
@@ -38,31 +25,38 @@ kotlin {
         androidMain.dependencies {
 
         }
-
         androidUnitTest.dependencies {
-            implementation(libs.paparazzi)
-            implementation(libs.parameter.injector)
-        }
 
+        }
         commonMain.dependencies {
             implementation(libs.kotlin.stdlib)
+            implementation(libs.bundles.koinEcosystem)
         }
-
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
-
-
-        getByName("androidDeviceTest") {
-            dependencies {
-                implementation(libs.androidx.runner)
-                implementation(libs.androidx.core)
-                implementation(libs.androidx.testExt.junit)
-            }
-        }
-
         iosMain.dependencies {
 
         }
     }
+}
+
+android {
+    namespace = "com.walcker.movies.core"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    defaultConfig {
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        val localProperties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) localProperties.load(localPropertiesFile.inputStream())
+        buildConfigField("String", "TMDB_ACCESS_TOKEN", "\"${localProperties.getProperty("TMDB_ACCESS_TOKEN", "")}\"")
+    }
+    packaging { resources { excludes += "/META-INF/{AL2.0,LGPL2.1}"; excludes += "/META-INF/INDEX.LIST"; excludes += "/META-INF/DEPENDENCIES"; excludes += "DebugProbesKt.bin" } }
+    buildFeatures { buildConfig = true }
+    compileOptions { sourceCompatibility = JavaVersion.VERSION_21; targetCompatibility = JavaVersion.VERSION_21; isCoreLibraryDesugaringEnabled = true }
+}
+
+dependencies {
+    debugImplementation(compose.uiTooling)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 }

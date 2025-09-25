@@ -12,15 +12,6 @@ kotlin {
         namespace = "com.walcker.movies.features.batSignal"
         compileSdk = 36
         minSdk = 24
-
-        withHostTestBuilder {
-        }
-
-        withDeviceTestBuilder {
-            sourceSetTreeName = "test"
-        }.configure {
-            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        }
     }
 
     listOf(
@@ -29,7 +20,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "features:batSignal"
+            baseName = "BatSignal"
             isStatic = true
         }
     }
@@ -40,8 +31,7 @@ kotlin {
         }
 
         androidUnitTest.dependencies {
-            implementation(libs.paparazzi)
-            implementation(libs.parameter.injector)
+
         }
 
         commonMain.dependencies {
@@ -50,14 +40,6 @@ kotlin {
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-        }
-
-        getByName("androidDeviceTest") {
-            dependencies {
-                implementation(libs.androidx.runner)
-                implementation(libs.androidx.core)
-                implementation(libs.androidx.testExt.junit)
-            }
         }
 
         iosMain.dependencies {

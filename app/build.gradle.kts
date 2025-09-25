@@ -1,4 +1,3 @@
-import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
@@ -11,77 +10,39 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinKsp)
     alias(libs.plugins.detekt)
-    alias(libs.plugins.paparazzi)
-    kotlin("plugin.serialization") version "2.2.0"
+    kotlin("plugin.serialization") version libs.versions.kotlin.get()
 }
 
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
+        compilerOptions { jvmTarget.set(JvmTarget.JVM_21) }
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
     }
-    detekt {
-        toolVersion = libs.versions.detekt.get()
-        config.setFrom(file("config/detekt/detekt.yml"))
-        buildUponDefaultConfig = true
-    }
-
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
+    listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "app"
+            baseName = "AppMan"
             isStatic = true
         }
     }
-
     sourceSets {
-
         androidMain.dependencies {
+            implementation(projects.features.movies)
+            implementation(projects.core)
+
+            implementation(libs.bundles.koinEcosystem)
+            implementation(libs.koin.android)
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.ktor.client.okhttp)
-        }
-        androidUnitTest.dependencies {
-            implementation(libs.paparazzi)
-            implementation(libs.parameter.injector)
+            implementation(libs.androidx.foundation)
         }
         commonMain.dependencies {
-            implementation(libs.bundles.koinEcosystem)
-            implementation(libs.bundles.ktorEcosystem)
-
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.runtime)
-            implementation(compose.ui)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.navigation)
-            implementation(libs.coil.compose)
-            implementation(libs.coil.network.ktor3)
-            implementation(libs.collections.immutable)
-            implementation(libs.composeIcons.fontAwesome)
-            implementation(libs.compose.shimmer)
-            implementation(libs.mediaplayer.kmp)
-            implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.kotlinx.serialization)
-            implementation(libs.lifecycle.viewmodel.compose)
-            implementation(libs.lyricist)
-        }
-        commonTest.dependencies {
-            implementation(libs.bundles.commonTestEcosystem)
+            implementation(projects.features.movies)
         }
         iosMain.dependencies {
+            implementation(projects.features.movies)
             implementation(libs.ktor.client.darwin)
         }
     }
@@ -92,20 +53,15 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.walcker.movies.app"
+        applicationId = "com.walcker.app.app"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
-        multiDexEnabled = true
-
         val localProperties = Properties()
         val localPropertiesFile = rootProject.file("local.properties")
-        if (localPropertiesFile.exists()) {
-            localProperties.load(localPropertiesFile.inputStream())
-        }
-
+        if (localPropertiesFile.exists()) localProperties.load(localPropertiesFile.inputStream())
         buildConfigField(
             "String",
             "TMDB_ACCESS_TOKEN",
@@ -136,17 +92,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
         isCoreLibraryDesugaringEnabled = true
     }
-    buildFeatures {
-        buildConfig = true
-    }
+    buildFeatures { buildConfig = true; compose = true }
+    composeOptions { kotlinCompilerExtensionVersion = libs.versions.kotlin.get() }
 }
 
 dependencies {
     debugImplementation(compose.uiTooling)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
-    implementation(libs.androidx.multidex)
 }

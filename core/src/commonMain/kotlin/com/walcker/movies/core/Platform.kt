@@ -1,3 +1,8 @@
 package com.walcker.movies.core
 
-expect fun platform(): String
+interface Platform {
+    val languageSystem: String
+    val accessToken: String
+}
+
+expect fun platformImpl(): Platform
