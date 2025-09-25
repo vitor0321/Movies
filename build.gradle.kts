@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.kotlinKsp) apply false
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.paparazzi) apply false
+    alias(libs.plugins.androidKotlinMultiplatformLibrary) apply false
+    alias(libs.plugins.androidLint) apply false
 }
 
 repositories {

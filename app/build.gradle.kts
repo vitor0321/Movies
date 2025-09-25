@@ -1,6 +1,4 @@
-import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.implementation
-import org.gradle.kotlin.dsl.kotlin
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
@@ -31,20 +29,20 @@ kotlin {
         config.setFrom(file("config/detekt/detekt.yml"))
         buildUponDefaultConfig = true
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "Flickly"
+            baseName = "app"
             isStatic = true
         }
     }
-    
+
     sourceSets {
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -90,11 +88,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.walcker.movies"
+    namespace = "com.walcker.movies.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.walcker.movies"
+        applicationId = "com.walcker.movies.app"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1

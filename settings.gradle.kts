@@ -29,3 +29,8 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":app")
+include(":core")
+include(":features")
+include(":features:batSignal")
+include(":features:movies")
